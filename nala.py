@@ -107,9 +107,10 @@ os.chdir(hostdir)
 
 def speaktext(hostdir,text):
     # speak to user from a text sample (tts system)  
+    curdir=os.getcwd()
     os.chdir(hostdir+'/actions') 
     os.system("python3 speak.py '%s'"%(text))
-    os.chdir(hostdir)
+    os.chdir(curdir)
 
 def curloc():
     # get current location, limit 1000 requests/day
@@ -217,11 +218,11 @@ def capture_video(filename, timesplit):
 
     return filename 
 
-def cut_faces(filename):
+def cut_faces(modeldir,filename):
 
     hostdir=os.getcwd()
-    capture_video(filename, 5)
-    face_cascade = cv2.CascadeClassifier(hostdir+'/data/models/haarcascades/haarcascade_frontalface_default.xml')
+    capture_video(filename, 10)
+    face_cascade = cv2.CascadeClassifier(modeldir+'/data/models/haarcascade_frontalface_default.xml')
     foldername=filename[0:-4]+'_faces'
 
     try:
@@ -298,6 +299,11 @@ def register_user(action_list, hostdir):
         shutil.rmtree(hostdir+'/data/wakewords')
         os.mkdir(hostdir+'/data/wakewords')
     try:
+        os.mkdir(hostdir+'/data/actions')
+    except:
+        shutil.rmtree(hostdir+'/data/actions')
+        os.mkdir(hostdir+'/data/actions')
+    try:
         os.mkdir(hostdir+'/data/queries')
     except:
         shutil.rmtree(hostdir+'/data/queries')
@@ -311,16 +317,17 @@ def register_user(action_list, hostdir):
     os.chdir(hostdir+'/data/baseline')
 
     # get name from user profile name, if not record it 
-    #speaktext(hostdir, 'Thank you for registering for us. I have a few quick questions for you. Please type in the answers to the following questions to register.')
+    speaktext(hostdir, 'Thank you for registering for us. I have a few quick questions for you. Please type in the answers to the following questions to register.')
     email=input('what is your email? \n')
     name=input('what is your name (leave blank for %s)? \n'%(getpass.getuser()))
     if name == '':
         name=getpass.getuser()
 
-    #speaktext(hostdir, 'Now give us a few seconds to register your account.')
-    facenums=cut_faces(name+'.avi')
+    speaktext(hostdir, 'Now give us a few seconds to register your account.')
 
+    facenums=cut_faces(hostdir, name+'.avi')
     os.chdir(hostdir+'/data/baseline')
+
     jsonfile=open('settings.json','w')
 
     data = {
@@ -425,7 +432,8 @@ try:
     action_log=database['action log']
     loopnum=database['loopnum']
     avail_actions = database['available actions']
-
+    print(database)
+    
     # settings.json
     settings=json.load(open('settings.json'))
     alarm=settings['alarm']
@@ -448,6 +456,7 @@ except:
     # load database
     os.chdir(hostdir)
     database=json.load(open('registration.json'))
+    print(database)
     name=database['name']
     regdate=database['registration date']
     logins=database['logins']
@@ -483,8 +492,10 @@ while t>0:
     # record a 3.0 second voice sample
     # use try statement to avoid errors 
     #try:
+
     # welcome user back if it's been over an hour since login 
     start=time.time()
+
     if abs(end-start) > 60*60:
         if greeting == True:
            speaktext(hostdir,'welcome back, %s'%(name.split()[0]))
@@ -493,7 +504,12 @@ while t>0:
            os.chdir(hostdir)
 
         # logout is the last activity from a query 
-        logouts.append(queries[len(queries)-1]['date'])
+        try:
+            logouts.append(queries[-1]['date'])
+        except:
+            pass 
+
+        print(get_date())
         # start a new login
         logins.append(get_date())
         # log session 
@@ -501,6 +517,7 @@ while t>0:
         # start a new session 
         session=list()
 
+    # change to host directory 
     os.chdir(hostdir)
     record_to_file(os.getcwd(),'detect.wav', 3.0)
     transcript=transcribe_audio_sphinx('detect.wav')
@@ -527,6 +544,7 @@ while t>0:
         query_num=0
 
         while query_request==False and query_num <= 3: 
+
             os.chdir(hostdir)
             if query_num==0:
                 speaktext(hostdir,'how can I help you?')
@@ -546,10 +564,12 @@ while t>0:
 
             # break if it finds a query 
             for i in range(len(query_transcript)):
+
+                # iterate through transcript 
                 os.chdir(hostdir+'/actions')
                 print(query_transcript[i])
+
                 if query_transcript[i] in ['weather', 'whether']:
-                    os.chdir(os.getcwd()+'/actions')
                     os.system('python3 weather.py %s'%(hostdir))
                     query={
                         'date':get_date(),
@@ -563,38 +583,40 @@ while t>0:
                     session.append(query)
                     action_count=action_count+1
                     query_request=True 
-                elif query_transcript[i] in ['event','social']:
-                    os.chdir(os.getcwd()+'/actions')
-                    os.system('python3 events.py %s'%(hostdir))
-                    query={
-                        'date':get_date(),
-                        'audio': unique_sample,
-                        'transcript type': 'google speech API',
-                        'query transcript': query_transcript[i],
-                        'transcript': transcript,
-                        'response': 'python3 events.py'
-                    }
+
+                elif query_transcript[i] in ['event','social', 'friends', 'go out']:
+                    # either get a meetup or pull from db 
+                    randint=random.randint(0,1)
+
+                    if randint==0:
+                        os.system('python3 events.py %s'%(hostdir))
+                        query={
+                            'date':get_date(),
+                            'audio': unique_sample,
+                            'transcript type': 'google speech API',
+                            'query transcript': query_transcript[i],
+                            'transcript': transcript,
+                            'response': 'python3 events.py'
+                        }
+
+                    elif randint==1:
+                        os.system('python3 social.py %s'%(hostdir))
+                        query={
+                            'date':get_date(),
+                            'audio': unique_sample,
+                            'transcript type': 'google speech API',
+                            'query transcript': query_transcript[i],
+                            'transcript': transcript,
+                            'response': 'python3 social.py'
+                        }
+
                     queries.append(query)
                     session.append(query)
                     action_count=action_count+1
-                    query_request=True 
-                elif query_transcript[i] in ['exercise']:
-                    os.chdir(os.getcwd()+'/actions')
-                    os.system('python3 exercise.py %s'%(hostdir))
-                    query={
-                        'date':get_date(),
-                        'audio': unique_sample,
-                        'transcript type': 'google speech API',
-                        'query transcript': query_transcript[i],
-                        'transcript': transcript,
-                        'response': 'python3 exercise.py'
-                    }
-                    queries.append(query)
-                    session.append(query)
-                    action_count=action_count+1
-                    query_request=True
+                    query_request=True   
+
                 elif query_transcript[i] in ['coffee']:
-                    os.chdir(os.getcwd()+'/actions')
+
                     os.system('python3 coffeebreak.py %s coffee'%(hostdir))
                     query={
                         'date':get_date(),
@@ -608,8 +630,9 @@ while t>0:
                     session.append(query)
                     action_count=action_count+1
                     query_request=True 
+
                 elif query_transcript[i] in ['news']:
-                    os.chdir(os.getcwd()+'/actions')
+
                     os.system('python3 news.py %s'%(hostdir))
                     query={
                         'date':get_date(),
@@ -623,8 +646,9 @@ while t>0:
                     session.append(query)
                     action_count=action_count+1
                     query_request=True 
+
                 elif query_transcript[i] in ['music']:
-                    os.chdir(os.getcwd()+'/actions')
+
                     os.system('python3 music.py %s classical'%(hostdir))
                     query={
                         'date':get_date(),
@@ -638,7 +662,9 @@ while t>0:
                     session.append(query)
                     action_count=action_count+1
                     query_request=True 
+
                 elif query_transcript[i] in ['exercise','run','workout']:
+
                     os.chdir(os.getcwd()+'/actions')
                     os.system('python3 exercise.py %s'%(hostdir))
                     query={
@@ -653,7 +679,9 @@ while t>0:
                     session.append(query)
                     action_count=action_count+1
                     query_request=True 
+
                 elif query_transcript[i] in ['sports','nba','cavs']:
+
                     os.chdir(os.getcwd()+'/actions')
                     os.system('python3 espn.py %s nba'%(hostdir))
                     query={
@@ -668,7 +696,9 @@ while t>0:
                     session.append(query)
                     action_count=action_count+1
                     query_request=True 
+
                 elif query_transcript[i] in ['book', 'flight', 'travel']:
+
                     os.chdir(os.getcwd()+'/actions')
                     speaktext(hostdir,'please type the responses below to schedule your trip!')
                     os.system('python3 plan_trip.py %s'%(hostdir))
@@ -686,6 +716,7 @@ while t>0:
                     query_request=True 
 
                 elif query_transcript[i] in ['alarm']:
+
                     if transcript == 'set alarm':
                         speaktext(hostdir,'setting alarm for %s in the morning'%(alarm_time))
                         alarm=True
@@ -694,6 +725,7 @@ while t>0:
                         alarm=False
 
                 elif query_transcript[i] in ['search']:
+
                     os.chdir(os.getcwd()+'/actions')
                     os.system('python3 plan_trip.py %s'%(hostdir))
                     query={
@@ -709,23 +741,8 @@ while t>0:
                     action_count=action_count+1
                     query_request=True    
 
-                elif query_transcript[i] in ['social','friends','go out']:
-                    os.chdir(os.getcwd()+'/actions')
-                    os.system('python3 social.py %s'%(hostdir))
-                    query={
-                        'date':get_date(),
-                        'audio': unique_sample,
-                        'transcript type': 'google speech API',
-                        'query transcript': query_transcript[i],
-                        'transcript': transcript,
-                        'response': 'python3 social.py'
-                    }
-                    queries.append(query)
-                    session.append(query)
-                    action_count=action_count+1
-                    query_request=True   
-
                 elif query_transcript[i] in ['food', 'eat', 'restaurants']:
+
                     os.chdir(os.getcwd()+'/actions')
                     randomnum=random.randint(0,1)
                     if randomnum ==0:
@@ -741,6 +758,7 @@ while t>0:
                         }
 
                     else:
+
                         os.system('python3 nutrition.py %s'%(hostdir))
                         query={
                             'date':get_date(),
@@ -758,6 +776,7 @@ while t>0:
 
 
                 elif query_transcript[i] in ['grateful', 'gratitude']:
+
                     os.chdir(os.getcwd()+'/actions')
                     os.system('python3 grateful.py %s'%(hostdir))
                     query={
@@ -774,6 +793,7 @@ while t>0:
                     query_request=True  
 
                 elif query_transcript[i] in ['meditation', 'meditate', 'relax']:
+
                     os.chdir(os.getcwd()+'/actions')
                     os.system('python3 meditation.py %s'%(hostdir))
                     query={
@@ -788,7 +808,9 @@ while t>0:
                     session.append(query)
                     action_count=action_count+1
                     query_request=True  
+
                 else:
+
                     query={
                         'date':get_date(),
                         'audio': unique_sample,
@@ -821,6 +843,7 @@ while t>0:
     else:
         pass
 
+    query_request=False 
     end=time.time()
     print(query_request)
     session.append('updated database @ %s'%(get_date()))
