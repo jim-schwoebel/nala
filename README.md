@@ -1,2 +1,2 @@
 # nala
-personal voice assistant
+Personal voice assistant. 
