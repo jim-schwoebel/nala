@@ -380,7 +380,7 @@ def register_user(action_list, hostdir):
     speaktext(hostdir, 'Thank you, you are now registered.')
 
 
-def update_database(hostdir,logins,logouts,sessions,query_count,queries,noise,action_count,action_log,loopnum, alarm, end):
+def update_database(hostdir,logins,logouts,sessions,query_count,queries,noise,action_count,loopnum, alarm, end):
 
     # update only the fields that matter
     data=json.load(open('actions.json'))
@@ -392,7 +392,6 @@ def update_database(hostdir,logins,logouts,sessions,query_count,queries,noise,ac
     data['queries']=queries
     data['noise']=noise
     data['action count']=action_count
-    data['action log']=action_log
     data['loopnum']=loopnum
 
     jsonfile=open('actions.json','w')
@@ -508,366 +507,442 @@ except:
 while t>0:
     # record a 3.0 second voice sample
     # use try statement to avoid errors 
-    try:
+    #try:
 
-        # welcome user back if it's been over an hour since login 
-        start=time.time()
+    # welcome user back if it's been over an hour since login 
+    start=time.time()
 
-        if abs(end-start) > 60*60:
-            if greeting == True:
-               speaktext(hostdir,'welcome back, %s'%(name.split()[0]))
-               os.chdir(hostdir+'/actions')
-               os.system('python3 weather.py %s'%(hostdir))
-               os.chdir(hostdir)
-
-            # logout is the last activity from a query 
-            try:
-                logouts.append(queries[-1]['date'])
-            except:
-                pass 
-
-            print(get_date())
-            # start a new login
-            logins.append(get_date())
-            # log session 
-            sessions.append(session)
-            # start a new session 
-            session=list()
-
-        # change to host directory 
+    # set alarm and make false after you trigger alarm 
+    if alarm == True and alarm_time == datetime.now().hour:
+        os.chdir(hostdir+'/actions')
+        os.system('python3 weather.py %s'%(hostdir))
+        alarm == False
         os.chdir(hostdir)
-        record_to_file(os.getcwd(),'detect.wav', 3.0)
-        transcript=transcribe_audio_sphinx('detect.wav')
-        print('sphinx: '+transcript)
 
-        if transcript in ['hey jim', 'hey jenn', 'jim', 'atm']:
+    if abs(end-start) > 60*60:
+        if greeting == True:
+           speaktext(hostdir,'welcome back, %s'%(name.split()[0]))
+           os.chdir(hostdir+'/actions')
+           os.system('python3 weather.py %s'%(hostdir))
+           os.chdir(hostdir)
 
-            wakeword='detect'+'_'+str(loopnum)+'.wav'
-            os.rename('detect.wav', wakeword)
-            shutil.move(hostdir+'/'+wakeword,hostdir+'/data/wakewords/'+wakeword)
+        # logout is the last activity from a query 
+        try:
+            logouts.append(queries[-1]['date'])
+        except:
+            pass 
 
-            query={
-                'date': get_date(),
-                'audio': wakeword,
-                'transcript type': 'pocketsphinx',
-                'query transcript': '',
-                'transcript': transcript,
-                'response': 'how can I help you?'
-            }
+        print(get_date())
+        # start a new login
+        logins.append(get_date())
+        # log session 
+        sessions.append(session)
+        # start a new session 
+        session=list()
 
-            queries.append(query)
-            session.append(query)
-            query_request=False 
-            query_num=0
+    # change to host directory 
+    os.chdir(hostdir)
+    record_to_file(os.getcwd(),'detect.wav', 3.0)
+    transcript=transcribe_audio_sphinx('detect.wav')
+    print('sphinx: '+transcript)
 
-            while query_request==False and query_num <= 3: 
+    if transcript in ['hey jim', 'hey jenn', 'jim', 'atm']:
 
-                os.chdir(hostdir)
-                if query_num==0:
-                    speaktext(hostdir,'how can I help you?')
+        wakeword='detect'+'_'+str(loopnum)+'.wav'
+        os.rename('detect.wav', wakeword)
+        shutil.move(hostdir+'/'+wakeword,hostdir+'/data/wakewords/'+wakeword)
+
+        query={
+            'date': get_date(),
+            'audio': wakeword,
+            'transcript type': 'pocketsphinx',
+            'query transcript': '',
+            'transcript': transcript,
+            'response': 'how can I help you?'
+        }
+
+        query_count=query_count+1 
+        queries.append(query)
+        session.append(query)
+        query_request=False 
+        query_num=0
+
+        while query_request==False and query_num <= 3: 
+
+            os.chdir(hostdir)
+            if query_num==0:
+                speaktext(hostdir,'how can I help you?')
+                playbackaudio(hostdir+'/data/tone.wav')
+            else:
+                speaktext(hostdir,"Sorry, I didn't get that. How can I help?")
+                playbackaudio(hostdir+'/data/tone.wav')
+
+            time.sleep(0.50)
+            
+            unique_sample='sample'+str(loopnum)+'_'+str(query_num)+'.wav'
+            record_to_file(os.getcwd(),unique_sample, 3.0)
+            transcript=transcribe_audio_google(unique_sample)
+            print('google: '+transcript)
+            shutil.move(hostdir+'/'+unique_sample,hostdir+'/data/queries/'+unique_sample)
+            query_transcript=transcript.split()
+
+            # break if it finds a query 
+            for i in range(len(query_transcript)):
+
+                # iterate through transcript 
+                os.chdir(hostdir+'/actions')
+                print(query_transcript[i])
+
+                if query_transcript[i] in ['weather', 'whether']:
+                    os.system('python3 weather.py %s'%(hostdir))
+                    query={
+                        'date':get_date(),
+                        'audio': unique_sample,
+                        'transcript type': 'google speech API',
+                        'query transcript': query_transcript[i],
+                        'transcript': weather,
+                        'response': 'python3 music.py'
+                    }
+
+                    query_count=query_count+1 
+                    queries.append(query)
+                    session.append(query)
+                    action_count=action_count+1
+                    query_request=True 
+
+                elif query_transcript[i] in ['event','social', 'friends', 'go out']:
+                    # either get a meetup or pull from db 
+                    randint=random.randint(0,1)
+
+                    if randint==0:
+                        os.system('python3 events.py %s'%(hostdir))
+                        query={
+                            'date':get_date(),
+                            'audio': unique_sample,
+                            'transcript type': 'google speech API',
+                            'query transcript': query_transcript[i],
+                            'transcript': transcript,
+                            'response': 'python3 events.py'
+                        }
+
+                    elif randint==1:
+                        os.system('python3 social.py %s'%(hostdir))
+                        query={
+                            'date':get_date(),
+                            'audio': unique_sample,
+                            'transcript type': 'google speech API',
+                            'query transcript': query_transcript[i],
+                            'transcript': transcript,
+                            'response': 'python3 social.py'
+                        }
+
+                    query_count=query_count+1 
+                    queries.append(query)
+                    session.append(query)
+                    action_count=action_count+1
+                    query_request=True   
+
+                elif query_transcript[i] in ['coffee']:
+
+                    os.system('python3 coffeebreak.py %s coffee'%(hostdir))
+                    query={
+                        'date':get_date(),
+                        'audio': unique_sample,
+                        'transcript type': 'google speech API',
+                        'query transcript': query_transcript[i],
+                        'transcript': transcript,
+                        'response': 'python3 coffeebreak.py'
+                    }
+
+                    query_count=query_count+1 
+                    queries.append(query)
+                    session.append(query)
+                    action_count=action_count+1
+                    query_request=True 
+
+                elif query_transcript[i] in ['news']:
+
+                    os.system('python3 news.py %s'%(hostdir))
+                    query={
+                        'date':get_date(),
+                        'audio': unique_sample,
+                        'transcript type': 'google speech API',
+                        'query transcript': query_transcript[i],
+                        'transcript': transcript,
+                        'response': 'python3 news.py'
+                    }
+
+                    query_count=query_count+1 
+                    queries.append(query)
+                    session.append(query)
+                    action_count=action_count+1
+                    query_request=True 
+
+                elif query_transcript[i] in ['music']:
+
+                    os.system('python3 music.py %s classical'%(hostdir))
+                    query={
+                        'date':get_date(),
+                        'audio': unique_sample,
+                        'transcript type': 'google speech API',
+                        'query transcript': query_transcript[i],
+                        'transcript': transcript,
+                        'response': 'python3 music.py'
+                    }
+
+                    query_count=query_count+1 
+                    queries.append(query)
+                    session.append(query)
+                    action_count=action_count+1
+                    query_request=True 
+
+                elif query_transcript[i] in ['exercise','run','workout']:
+
+                    os.system('python3 exercise.py %s'%(hostdir))
+                    query={
+                        'date':get_date(),
+                        'audio': unique_sample,
+                        'transcript type': 'google speech API',
+                        'query transcript': query_transcript[i],
+                        'transcript': transcript,
+                        'response': 'python3 exercise.py'
+                    }
+
+                    query_count=query_count+1 
+                    queries.append(query)
+                    session.append(query)
+                    action_count=action_count+1
+                    query_request=True 
+
+                elif query_transcript[i] in ['sports','nba','cavs']:
+
+                    os.system('python3 espn.py %s nba'%(hostdir))
+                    query={
+                        'date':get_date(),
+                        'audio': unique_sample,
+                        'transcript type': 'google speech API',
+                        'query transcript': query_transcript[i],
+                        'transcript': transcript,
+                        'response': 'python3 espn.py'
+                    }
+
+                    query_count=query_count+1 
+                    queries.append(query)
+                    session.append(query)
+                    action_count=action_count+1
+                    query_request=True 
+
+                elif query_transcript[i] in ['book', 'flight', 'travel']:
+
+                    speaktext(hostdir,'please type the responses below to schedule your trip!')
+                    os.system('python3 plan_trip.py %s'%(hostdir))
+                    query={
+                        'date':get_date(),
+                        'audio': unique_sample,
+                        'transcript type': 'google speech API',
+                        'query transcript': query_transcript[i],
+                        'transcript': transcript,
+                        'response': 'python3 plan_trip.py'
+                    }
+
+                    query_count=query_count+1 
+                    queries.append(query)
+                    session.append(query)
+                    action_count=action_count+1
+                    query_request=True 
+
+                elif query_transcript[i] in ['alarm']:
+
+                    if transcript == 'set alarm':
+
+                        speaktext(hostdir,'setting alarm for %s in the morning'%(alarm_time))
+
+                        query={
+                            'date':get_date(),
+                            'audio': unique_sample,
+                            'transcript type': 'google speech API',
+                            'query transcript': query_transcript[i],
+                            'transcript': transcript,
+                            'response': 'setting alarm for %s in the morning'%(alarm_time),
+                        }
+
+                        alarm=True
+
+                    elif transcript == 'stop alarm':
+
+                        speaktext(hostdir,'stopping all alarms')
+
+                        query={
+                            'date':get_date(),
+                            'audio': unique_sample,
+                            'transcript type': 'google speech API',
+                            'query transcript': query_transcript[i],
+                            'transcript': transcript,
+                            'response': 'stopping all alarms',
+                        }
+
+                        alarm=False
+
+                    else: 
+
+                        print('doing nothing...')
+
+                        query={
+                            'date':get_date(),
+                            'audio': unique_sample,
+                            'transcript type': 'google speech API',
+                            'query transcript': query_transcript[i],
+                            'transcript': transcript,
+                            'response': 'doing nothing',
+                        }
+
+                    query_count=query_count+1 
+                    queries.append(query)
+                    session.append(query)
+                    action_count=action_count+1
+                    query_request=True    
+
+                elif query_transcript[i] in ['search']:
+
+                    speaktext(hostdir,"what would you like to search for?")
                     playbackaudio(hostdir+'/data/tone.wav')
-                else:
-                    speaktext(hostdir,"Sorry, I didn't get that. How can I help?")
-                    playbackaudio(hostdir+'/data/tone.wav')
+                    unique_sample='sample'+str(loopnum)+'_'+str(query_num)+'_1.wav'
+                    record_to_file(os.getcwd(),unique_sample, 5.0)
+                    search_query=transcribe_audio_google(unique_sample)
+                    print('google: '+search_query)
+                    shutil.move(os.getcwd()+'/'+unique_sample,hostdir+'/data/queries/'+unique_sample)
 
-                time.sleep(0.50)
-                
-                unique_sample='sample'+str(loopnum)+'_'+str(query_num)+'.wav'
-                record_to_file(os.getcwd(),unique_sample, 3.0)
-                transcript=transcribe_audio_google(unique_sample)
-                print('google: '+transcript)
-                shutil.move(hostdir+'/'+unique_sample,hostdir+'/data/queries/'+unique_sample)
-                query_transcript=transcript.split()
+                    os.system('python3 search.py %s %s'%(hostdir, search_query.replace('search','')))
+                    query={
+                        'date':get_date(),
+                        'audio': unique_sample,
+                        'transcript type': 'google speech API',
+                        'query transcript': query_transcript[i],
+                        'transcript': transcript,
+                        'response': 'python3 search.py %s %s'%(hostdir, search_query.replace('search',''))
+                    }
 
-                # break if it finds a query 
-                for i in range(len(query_transcript)):
+                    query_count=query_count+1 
+                    queries.append(query)
+                    session.append(query)
+                    action_count=action_count+1
+                    query_request=True    
 
-                    # iterate through transcript 
-                    os.chdir(hostdir+'/actions')
-                    print(query_transcript[i])
+                elif query_transcript[i] in ['food', 'eat', 'restaurants']:
 
-                    if query_transcript[i] in ['weather', 'whether']:
-                        os.system('python3 weather.py %s'%(hostdir))
-                        query={
-                            'date':get_date(),
-                            'audio': unique_sample,
-                            'transcript type': 'google speech API',
-                            'query transcript': query_transcript[i],
-                            'transcript': weather,
-                            'response': 'python3 music.py'
-                        }
-                        queries.append(query)
-                        session.append(query)
-                        action_count=action_count+1
-                        query_request=True 
-
-                    elif query_transcript[i] in ['event','social', 'friends', 'go out']:
-                        # either get a meetup or pull from db 
-                        randint=random.randint(0,1)
-
-                        if randint==0:
-                            os.system('python3 events.py %s'%(hostdir))
-                            query={
-                                'date':get_date(),
-                                'audio': unique_sample,
-                                'transcript type': 'google speech API',
-                                'query transcript': query_transcript[i],
-                                'transcript': transcript,
-                                'response': 'python3 events.py'
-                            }
-
-                        elif randint==1:
-                            os.system('python3 social.py %s'%(hostdir))
-                            query={
-                                'date':get_date(),
-                                'audio': unique_sample,
-                                'transcript type': 'google speech API',
-                                'query transcript': query_transcript[i],
-                                'transcript': transcript,
-                                'response': 'python3 social.py'
-                            }
-
-                        queries.append(query)
-                        session.append(query)
-                        action_count=action_count+1
-                        query_request=True   
-
-                    elif query_transcript[i] in ['coffee']:
-
-                        os.system('python3 coffeebreak.py %s coffee'%(hostdir))
+                    randomnum=random.randint(0,1)
+                    if randomnum ==0:
+                        
+                        os.system('python3 coffeebreak.py %s food'%(hostdir))
                         query={
                             'date':get_date(),
                             'audio': unique_sample,
                             'transcript type': 'google speech API',
                             'query transcript': query_transcript[i],
                             'transcript': transcript,
-                            'response': 'python3 coffeebreak.py'
+                            'response': 'python3 coffeebreak.py %s food'%(hostdir)
                         }
-                        queries.append(query)
-                        session.append(query)
-                        action_count=action_count+1
-                        query_request=True 
-
-                    elif query_transcript[i] in ['news']:
-
-                        os.system('python3 news.py %s'%(hostdir))
-                        query={
-                            'date':get_date(),
-                            'audio': unique_sample,
-                            'transcript type': 'google speech API',
-                            'query transcript': query_transcript[i],
-                            'transcript': transcript,
-                            'response': 'python3 news.py'
-                        }
-                        queries.append(query)
-                        session.append(query)
-                        action_count=action_count+1
-                        query_request=True 
-
-                    elif query_transcript[i] in ['music']:
-
-                        os.system('python3 music.py %s classical'%(hostdir))
-                        query={
-                            'date':get_date(),
-                            'audio': unique_sample,
-                            'transcript type': 'google speech API',
-                            'query transcript': query_transcript[i],
-                            'transcript': transcript,
-                            'response': 'python3 music.py'
-                        }
-                        queries.append(query)
-                        session.append(query)
-                        action_count=action_count+1
-                        query_request=True 
-
-                    elif query_transcript[i] in ['exercise','run','workout']:
-
-                        os.chdir(os.getcwd()+'/actions')
-                        os.system('python3 exercise.py %s'%(hostdir))
-                        query={
-                            'date':get_date(),
-                            'audio': unique_sample,
-                            'transcript type': 'google speech API',
-                            'query transcript': query_transcript[i],
-                            'transcript': transcript,
-                            'response': 'python3 exercise.py'
-                        }
-                        queries.append(query)
-                        session.append(query)
-                        action_count=action_count+1
-                        query_request=True 
-
-                    elif query_transcript[i] in ['sports','nba','cavs']:
-
-                        os.chdir(os.getcwd()+'/actions')
-                        os.system('python3 espn.py %s nba'%(hostdir))
-                        query={
-                            'date':get_date(),
-                            'audio': unique_sample,
-                            'transcript type': 'google speech API',
-                            'query transcript': query_transcript[i],
-                            'transcript': transcript,
-                            'response': 'python3 espn.py'
-                        }
-                        queries.append(query)
-                        session.append(query)
-                        action_count=action_count+1
-                        query_request=True 
-
-                    elif query_transcript[i] in ['book', 'flight', 'travel']:
-
-                        os.chdir(os.getcwd()+'/actions')
-                        speaktext(hostdir,'please type the responses below to schedule your trip!')
-                        os.system('python3 plan_trip.py %s'%(hostdir))
-                        query={
-                            'date':get_date(),
-                            'audio': unique_sample,
-                            'transcript type': 'google speech API',
-                            'query transcript': query_transcript[i],
-                            'transcript': transcript,
-                            'response': 'python3 plan_trip.py'
-                        }
-                        queries.append(query)
-                        session.append(query)
-                        action_count=action_count+1
-                        query_request=True 
-
-                    elif query_transcript[i] in ['alarm']:
-
-                        if transcript == 'set alarm':
-                            speaktext(hostdir,'setting alarm for %s in the morning'%(alarm_time))
-                            alarm=True
-                        elif transcript == 'stop alarm':
-                            speaktext(hostdir,'stopping all alarms')
-                            alarm=False
-
-                    elif query_transcript[i] in ['search']:
-
-                        os.chdir(os.getcwd()+'/actions')
-                        os.system('python3 plan_trip.py %s'%(hostdir))
-                        query={
-                            'date':get_date(),
-                            'audio': unique_sample,
-                            'transcript type': 'google speech API',
-                            'query transcript': query_transcript[i],
-                            'transcript': transcript,
-                            'response': 'python3 plan_trip.py'
-                        }
-                        queries.append(query)
-                        session.append(query)
-                        action_count=action_count+1
-                        query_request=True    
-
-                    elif query_transcript[i] in ['food', 'eat', 'restaurants']:
-
-                        os.chdir(os.getcwd()+'/actions')
-                        randomnum=random.randint(0,1)
-                        if randomnum ==0:
-                            
-                            os.system('python3 coffeebreak.py %s food'%(hostdir))
-                            query={
-                                'date':get_date(),
-                                'audio': unique_sample,
-                                'transcript type': 'google speech API',
-                                'query transcript': query_transcript[i],
-                                'transcript': transcript,
-                                'response': 'python3 coffeebreak.py'
-                            }
-
-                        else:
-
-                            os.system('python3 nutrition.py %s'%(hostdir))
-                            query={
-                                'date':get_date(),
-                                'audio': unique_sample,
-                                'transcript type': 'google speech API',
-                                'query transcript': query_transcript[i],
-                                'transcript': transcript,
-                                'response': 'python3 nutrition.py'
-                            }
-
-                        queries.append(query)
-                        session.append(query)
-                        action_count=action_count+1
-                        query_request=True 
-
-
-                    elif query_transcript[i] in ['grateful', 'gratitude']:
-
-                        os.chdir(os.getcwd()+'/actions')
-                        os.system('python3 grateful.py %s'%(hostdir))
-                        query={
-                            'date':get_date(),
-                            'audio': unique_sample,
-                            'transcript type': 'google speech API',
-                            'query transcript': query_transcript[i],
-                            'transcript': transcript,
-                            'response': 'python3 grateful.py'
-                        }
-                        queries.append(query)
-                        session.append(query)
-                        action_count=action_count+1
-                        query_request=True  
-
-                    elif query_transcript[i] in ['meditation', 'meditate', 'relax']:
-
-                        os.chdir(os.getcwd()+'/actions')
-                        os.system('python3 meditation.py %s'%(hostdir))
-                        query={
-                            'date':get_date(),
-                            'audio': unique_sample,
-                            'transcript type': 'google speech API',
-                            'query transcript': query_transcript[i],
-                            'transcript': transcript,
-                            'response': 'python3 meditation.py'
-                        }
-                        queries.append(query)
-                        session.append(query)
-                        action_count=action_count+1
-                        query_request=True  
 
                     else:
 
+                        os.system('python3 nutrition.py %s'%(hostdir))
                         query={
                             'date':get_date(),
                             'audio': unique_sample,
                             'transcript type': 'google speech API',
                             'query transcript': query_transcript[i],
                             'transcript': transcript,
-                            'response': "Sorry, I didn't get that. How can I help?"
+                            'response': 'python3 nutrition.py %s'%(hostdir)
                         }
-                        noise.append(query)
-                        session.append(query)
 
-                query_num=query_num+1 
-                os.chdir(hostdir)
-                
-        elif transcript in ['i love you']:
-            speaktext(hostdir,'I love you too! Lets celebrate this together.')
-            unique_sample='sample'+str(loopnum)+'_'+str(0)+'.wav'
-            query={
-                'date':get_date(),
-                'audio': unique_sample,
-                'transcript type': 'pocketsphinx',
-                'query transcript': '',
-                'transcript': transcript,
-                'response': 'I love you too! Lets celebrate this together.'
-            }
+                    query_count=query_count+1 
+                    queries.append(query)
+                    session.append(query)
+                    action_count=action_count+1
+                    query_request=True 
 
-            queries.append(query)
-            session.append(query)
 
-        else:
-            pass
+                elif query_transcript[i] in ['grateful', 'gratitude']:
 
-        query_request=False 
-        end=time.time()
-        print(query_request)
-        session.append('updated database @ %s'%(get_date()))
-        update_databaseupdate_database(hostdir,logins,logouts,sessions,query_count,queries,noise,action_count,action_log,loopnum, alarm, end)
+                    os.chdir(os.getcwd()+'/actions')
+                    os.system('python3 grateful.py %s'%(hostdir))
+                    query={
+                        'date':get_date(),
+                        'audio': unique_sample,
+                        'transcript type': 'google speech API',
+                        'query transcript': query_transcript[i],
+                        'transcript': transcript,
+                        'response': 'python3 grateful.py %s'%(hostdir)
+                    }
 
-    except:
-        pass 
+                    query_count=query_count+1 
+                    queries.append(query)
+                    session.append(query)
+                    action_count=action_count+1
+                    query_request=True  
+
+                elif query_transcript[i] in ['meditation', 'meditate', 'relax']:
+
+                    os.chdir(os.getcwd()+'/actions')
+                    os.system('python3 meditation.py %s'%(hostdir))
+                    query={
+                        'date':get_date(),
+                        'audio': unique_sample,
+                        'transcript type': 'google speech API',
+                        'query transcript': query_transcript[i],
+                        'transcript': transcript,
+                        'response': 'python3 meditation.py %s'%(hostdir)
+                    }
+
+                    query_count=query_count+1 
+                    queries.append(query)
+                    session.append(query)
+                    action_count=action_count+1
+                    query_request=True  
+
+                else:
+
+                    query={
+                        'date':get_date(),
+                        'audio': unique_sample,
+                        'transcript type': 'google speech API',
+                        'query transcript': query_transcript[i],
+                        'transcript': transcript,
+                        'response': "Sorry, I didn't get that. How can I help?"
+                    }
+                    noise.append(query)
+                    session.append(query)
+
+            query_num=query_num+1 
+            os.chdir(hostdir)
+            
+    elif transcript in ['i love you']:
+        speaktext(hostdir,'I love you too! Lets celebrate this together.')
+        unique_sample='sample'+str(loopnum)+'_'+str(0)+'.wav'
+        query={
+            'date':get_date(),
+            'audio': unique_sample,
+            'transcript type': 'pocketsphinx',
+            'query transcript': '',
+            'transcript': transcript,
+            'response': 'I love you too! Lets celebrate this together.'
+        }
+
+        query_count=query_count+1 
+        queries.append(query)
+        session.append(query)
+
+    else:
+        pass
+
+    query_request=False 
+    end=time.time()
+    print(query_request)
+    session.append('updated database @ %s'%(get_date()))
+    update_database(hostdir,logins,logouts,sessions,query_count,queries,noise,action_count,loopnum, alarm, end)
+
+    #except:
+        #pass 
     
     # sleep appropriately before each query to not harm the processor and suck battery 
     time.sleep(rest_time)
