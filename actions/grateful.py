@@ -101,7 +101,9 @@ def playbackaudio(question,filename):
     return "playback completed"
         
 def record_to_file(path,filename,typefile):
-#record 5 minute segment of speech with no normalization
+
+    os.chdir(path)
+
     if typefile == 'mostgrateful':
         CHUNK = 1024 
         FORMAT = pyaudio.paInt16 #paInt8
@@ -178,15 +180,17 @@ def record_to_file(path,filename,typefile):
         
 
 def pleasebegrateful(randomint):
+    hostdir=os.getcwd()
+    os.chdir(hostdir+'/actions')
     #speak into mic
     if randomint==1:
         playbackaudio("what are you most grateful for today?", "mostgrateful.mp3")
         today=datetime.datetime.today()
-        record_to_file(os.getcwd(),"%s-mostgrateful.mp3"%(str(today)[0:9]),"mostgrateful")
+        record_to_file(hostdir+'/data/actions',"%s-mostgrateful.mp3"%(str(today)[0:9]),"mostgrateful")
     elif randomint==2:
         playbackaudio("what are 5 things are you are grateful for today?", "grateful5.mp3")
         today=datetime.datetime.today()
-        record_to_file(os.getcwd(),"%s-grateful5.mp3"%(str(today)[0:9]),"5mostgrateful")
+        record_to_file(hostdir+'/data/actions',"%s-grateful5.mp3"%(str(today)[0:9]),"5mostgrateful")
     
     #gratitute journal
     return "grateful completed"
@@ -201,8 +205,15 @@ def get_date():
 print("Prepare to be grateful.")
 time.sleep(1)
 
-#import name, email from before 
+# update database 
+hostdir=sys.argv[1]
+os.chdir(hostdir)
+database=json.load(open('registration.json'))
+action_log=database['action log']
+name=database['name']
+email=database['email']
 
+#import name, email from before 
 webbrowser.open("http://actions.neurolex.co/uploads/grateful.m4a")
 time.sleep(2)
 webbrowser.open('http://actions.neurolex.co/uploads/grateful.png')
@@ -214,13 +225,7 @@ time.sleep(2)
 randomint=random.randint(1,2)
 pleasebegrateful(randomint)
 
-# update database 
-hostdir=sys.argv[1]
-os.chdir(hostdir)
-database=json.load('registration.json')
-action_log=database['action log']
-name=database['name']
-email=database['email']
+today=get_date()
 
 if randomint==1:
     message='Hey %s, \n\n Perhaps be more thankful! Gratitude journals are known to help reduce your stress. \n\n The attached .wav file is what you are grateful for today. Listen to and reflect upon this file. \n\n Is this all you are thankful for, or is there more? \n\n Remember, be well! \n\n Cheers, \n\n -The NeuroLex Team'%(name.split()[0].title())
@@ -232,6 +237,7 @@ elif randomint==2:
 
 webbrowser.open('http://actions.neurolex.co/uploads/exit2.png')
 
+os.chdir(hostdir)
 action={
     'action': 'grateful.py',
     'date': get_date(),

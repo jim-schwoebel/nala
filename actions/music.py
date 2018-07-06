@@ -107,6 +107,13 @@ def internet(host="8.8.8.8", port=53, timeout=3):
     except:
         return False
 
+def speaktext(hostdir,text):
+    # speak to user from a text sample (tts system)  
+    curdir=os.getcwd()
+    os.chdir(hostdir+'/actions') 
+    os.system("python3 speak.py '%s'"%(text))
+    os.chdir(curdir)
+
 def selectoption(one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive,twentysix,twentyseven,twentyeight,twentynine,thirty):
     thenum=random.randint(1,30)
     if thenum==1:
@@ -761,7 +768,8 @@ def getmusic(musictype):
 ##                            MAIN SCRIPT                                   ##
 ##############################################################################
 
-musictype=argv[2]
+hostdir=sys.argv[1]
+musictype=sys.argv[2]
 
 #make into integer for later use
 if musictype in ["alternative", "alternativerock","alternattive"]:
@@ -822,6 +830,7 @@ print("%s"%(g))
 try:
     linkindex=g.index('https')
     link=g[linkindex:]
+    speaktext(hostdir, g[0:linkindex])
     webbrowser.open_new(link)
        
 except:
@@ -830,7 +839,7 @@ except:
 # update database 
 hostdir=sys.argv[1]
 os.chdir(hostdir)
-database=json.load('registration.json')
+database=json.load(open('registration.json'))
 action_log=database['action log']
 name=database['name']
 email=database['email']

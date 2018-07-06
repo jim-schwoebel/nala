@@ -55,57 +55,13 @@ future.
 ##                           IMPORT STATEMENTS                              ##
 ##############################################################################
 
-import os, datetime, random, socket, pygame, time, ftplib, random, sys
+import os, datetime, random, socket, pygame, time, ftplib, random, sys, json
 import numpy, geocoder, getpass, json, requests, smtplib, webbrowser, platform
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email.utils import COMMASPACE, formatdate
 from email import encoders 
-
-##############################################################################
-##                        PULL DATABASES / ENV VARIABLES                    ##
-##############################################################################
-
-#get stresslex directory and get email
-if platform.system() == "Darwin":
-    username=getpass.getuser()
-    directory="/Users/"+username+"/Public/stresslex/"
- 
-elif platform.system() == "Windows" or platform.system() == "Win32":
-    directory="C:\\Users\\Public\\stresslex"
-
-elif platform.system().lower() in ['linux','linux2']:
-    username=getpass.getuser()
-    directory="/home/"+username+"/Documents/stresslex"
-
-os.chdir(directory)
-
-#pull environment variables
-domain_name = 'server.neurolex.co'
-d_username = os.environ['NEUROLEX_DOMAIN_USER']
-d_password = os.environ['NEUROLEX_DOMAIN_PASSWORD']
-email_address = os.environ['NEUROLEX_EMAIL']
-e_password = os.environ['NEUROLEX_EMAIL_PASSWORD']
-
-#get devicenum and user id
-devicenum=str(open('devicenum.txt','r').read())
-userid=open('userid.txt','r').read()
-
-# get name and email and devicetype        
-registration=json.load(open('registration.json'))
-devicetype=registration['devicetype']
-name=registration['name']
-email=registration['email']
-
-# extract exercise metadata from registration
-baseline_actions=json.load(open('baseline_actions.json'))
-budget=baseline_actions['budget']
-coffee=baseline_actions['coffee']
-alcohol=baseline_actions['alcohol']
-meditationask=baseline_actions['meditation']
-exercisetype=baseline_actions['exercisetype']
-musictype=baseline_actions['musictype']
 
 ##############################################################################
 ##                            HELPER FUNCTIONS                              ##
@@ -210,8 +166,10 @@ def playbackaudio(question,filename):
     time.sleep(5)
     return "playback completed"
 
-#nutrition actions 
+def get_date():
+    return str(datetime.datetime.now())
 
+#nutrition actions 
 def breakfast(coffee, tea, city):
     #maybe separate breakfast by city like in exercise 
     #go off google reviews or something to buy 
@@ -788,6 +746,8 @@ time.sleep(6)
 #for demo purposes 
 try:
     city = curloc()['city'].lower()
+    if city == 'cambridge':
+        city='boston'
 except:
     print('error, defaulting to boston')
     city='boston'
@@ -815,7 +775,7 @@ for i in range(3):
 # update database 
 hostdir=sys.argv[1]
 os.chdir(hostdir)
-database=json.load('registration.json')
+database=json.load(open('registration.json'))
 action_log=database['action log']
 name=database['name']
 email=database['email']

@@ -125,7 +125,7 @@ if internet_access==True:
     # update database 
     hostdir=sys.argv[1]
     os.chdir(hostdir)
-    database=json.load('registration.json')
+    database=json.load(open('registration.json'))
     action_log=database['action log']
 
     action={
@@ -151,7 +151,7 @@ else:
     # update database 
     hostdir=sys.argv[1]
     os.chdir(hostdir)
-    database=json.load('registration.json')
+    database=json.load(open('registration.json'))
     action_log=database['action log']
 
     action={

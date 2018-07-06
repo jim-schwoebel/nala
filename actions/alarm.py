@@ -55,10 +55,10 @@ def playbackaudio(filename):
 
 def speaktext(text):
 	# speak to user from a text sample (tts system)
-	engine = pyttsx.init()
+    engine = pyttsx.init()
     engine.setProperty('voice','com.apple.speech.synthesis.voice.fiona')
-	engine.say(text)
-	engine.runAndWait()
+    engine.say(text)
+    engine.runAndWait()
 
 def get_date():
     return str(datetime.datetime.now())
@@ -79,7 +79,7 @@ playbackaudio('wakeup.wav')
 
 # update database 
 hostdir=sys.argv[1]
-database=json.load('registration.json')
+database=json.load(open('registration.json'))
 action_log=database['action log']
 
 action={

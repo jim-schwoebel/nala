@@ -426,7 +426,16 @@ time.sleep(6)
 
 #initialize 
 month=datetime.datetime.now().month
-city=nearestcity()
+# update database 
+hostdir=sys.argv[1]
+os.chdir(hostdir)
+database=json.load(open('registration.json'))
+action_log=database['action log']
+name=database['name']
+email=database['email']
+city=database['location']['city'].lower()
+if city == 'cambridge':
+    city='boston'
 
 budget=int(30)
 
@@ -667,14 +676,6 @@ for i in range(0,3):
             print(output)
             notify.append(output)
 
-
-# update database 
-hostdir=sys.argv[1]
-os.chdir(hostdir)
-database=json.load('registration.json')
-action_log=database['action log']
-name=database['name']
-email=database['email']
 
 # other data 
 one=notify[0]

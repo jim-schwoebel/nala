@@ -1397,6 +1397,8 @@ elif exercisetype=="bike":
     
 location=curloc()
 city=location['city'].lower()
+if city == 'cambridge':
+    city = 'boston'
 listofcities=['chicago','boston','philadelphia','new york city', 'houston"', 'dallas', 'san antonio', 'austin', 'atlanta', 'seattle', 'san francisco', 'los angeles']
 
 # go through script only if the city is in the listofcities 
@@ -1407,7 +1409,7 @@ if city not in listofcities:
     # update database 
     hostdir=sys.argv[1]
     os.chdir(hostdir)
-    database=json.load('registration.json')
+    database=json.load(open('registration.json'))
     action_log=database['action log']
 
     action={
@@ -1438,7 +1440,7 @@ else:
     # update database 
     hostdir=sys.argv[1]
     os.chdir(hostdir)
-    database=json.load('registration.json')
+    database=json.load(open('registration.json'))
     action_log=database['action log']
     name=database['name']
     email=database['email']

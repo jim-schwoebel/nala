@@ -64,7 +64,7 @@ def curloc():
 ##                            MAIN SCRIPT                                   ##
 ##############################################################################
 
-keyword = argv[2].lower()
+keyword = sys.argv[2].lower()
 
 if keyword not in ['coffee', 'restaurants', 'food']:
     keyword='Coffee+%26+Tea'
@@ -176,7 +176,7 @@ speaktext(speak_text)
 # update database 
 hostdir=sys.argv[1]
 os.chdir(hostdir)
-database=json.load('registration.json')
+database=json.load(open('registration.json'))
 action_log=database['action log']
 
 action={

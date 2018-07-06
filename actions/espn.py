@@ -3,7 +3,7 @@ Get sports games.
 
 ESPN website.
 '''
-import datetime, os, requests, webbrowser, sys
+import datetime, os, requests, webbrowser, sys, json
 from bs4 import BeautifulSoup
 import pyttsx3 as pyttsx
 # get user location
@@ -21,7 +21,7 @@ def get_date():
 url='http://www.espn.com/'
 
 # sport_type=['nba', 'wnba', 'nfl','mlb','nhl','mls','ncaaf']
-sport_type=argv[2].lower()
+sport_type=sys.argv[2].lower()
 if sport_type not in ['nba', 'wnba', 'nfl','mlb','nhl','mls','ncaaf']:
     sport_type = 'nba'
 
@@ -76,7 +76,7 @@ else:
 # update database 
 hostdir=sys.argv[1]
 os.chdir(hostdir)
-database=json.load('registration.json')
+database=json.load(open('registration.json'))
 action_log=database['action log']
 
 action={

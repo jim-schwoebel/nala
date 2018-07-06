@@ -9,7 +9,7 @@ Open up a url that is relevant to a query; attach voice interface to this.
 ##                            IMPORT STATEMENTS                             ##
 ##############################################################################
 
-import requests, random, webbrowser, sys
+import requests, random, webbrowser, sys, os, json, datetime
 from bs4 import BeautifulSoup
 import pyttsx3 as pyttsx 
 
@@ -81,7 +81,7 @@ if soup not in speak_stopwords:
 # update database 
 hostdir=sys.argv[1]
 os.chdir(hostdir)
-database=json.load('registration.json')
+database=json.load(open('registration.json'))
 action_log=database['action log']
 
 action={
