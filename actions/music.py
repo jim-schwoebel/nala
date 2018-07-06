@@ -43,7 +43,7 @@ Note: some links are deprecated. We're working on this.
 ##                           IMPORT STATEMENTS                              ##
 ##############################################################################
 
-import os, datetime, pygame, socket, time, random, ftplib, numpy
+import os, datetime, pygame, socket, time, random, ftplib, numpy, sys
 import geocoder, getpass, requests, webbrowser, smtplib, json
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase

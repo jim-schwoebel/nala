@@ -46,7 +46,7 @@ dancing, pets, hobbies/crafts, fashion/beauty, social, career-business.
 ##############################################################################
 
 from bs4 import BeautifulSoup
-import random, os, requests, time, getpass, webbrowser, datetime
+import random, os, requests, time, getpass, webbrowser, datetime, sys
 import ftplib, platform, json 
 import pyttsx3 as pyttsx
 
@@ -57,6 +57,7 @@ import pyttsx3 as pyttsx
 def speaktext(text):
     # speak to user from a text sample (tts system)
     engine = pyttsx.init()
+    engine.setProperty('voice','com.apple.speech.synthesis.voice.fiona')
     engine.say(text)
     engine.runAndWait()
 

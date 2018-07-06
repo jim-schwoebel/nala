@@ -3,7 +3,7 @@ Get sports games.
 
 ESPN website.
 '''
-import datetime, os, requests, webbrowser 
+import datetime, os, requests, webbrowser, sys
 from bs4 import BeautifulSoup
 import pyttsx3 as pyttsx
 # get user location
@@ -11,6 +11,7 @@ import pyttsx3 as pyttsx
 def speaktext(text):
     # speak to user from a text sample (tts system)
     engine = pyttsx.init()
+    engine.setProperty('voice','com.apple.speech.synthesis.voice.fiona')
     engine.say(text)
     engine.runAndWait()
 

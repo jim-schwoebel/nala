@@ -35,7 +35,7 @@ Then plays the weather and also some music to gradually wake up.
 ##############################################################################
 ##                           IMPORT STATEMENTS                              ##
 ##############################################################################
-import webbrowser, ftplib, platform, json, getpass 
+import webbrowser, ftplib, platform, json, getpass
 from datetime import datetime 
 import pygame, os, time, sys
 import pyttsx3 as pyttsx
@@ -56,6 +56,7 @@ def playbackaudio(filename):
 def speaktext(text):
 	# speak to user from a text sample (tts system)
 	engine = pyttsx.init()
+    engine.setProperty('voice','com.apple.speech.synthesis.voice.fiona')
 	engine.say(text)
 	engine.runAndWait()
 

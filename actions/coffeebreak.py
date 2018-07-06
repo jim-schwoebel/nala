@@ -36,7 +36,7 @@ Find a local coffee shop based on your current location using Yelp.
 ##############################################################################
 
 import pyttsx3 as pyttsx
-import requests, time, datetime, ftplib, platform, json, getpass, os 
+import requests, time, datetime, ftplib, platform, json, getpass, os, sys
 from bs4 import BeautifulSoup
 import random, webbrowser
 
@@ -47,6 +47,7 @@ import random, webbrowser
 def speaktext(text):
     # speak to user from a text sample (tts system)
     engine = pyttsx.init()
+    engine.setProperty('voice','com.apple.speech.synthesis.voice.fiona')
     engine.say(text)
     engine.runAndWait()
 

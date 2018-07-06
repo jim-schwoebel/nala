@@ -41,7 +41,7 @@ and cnn money.
 ##                           IMPORT STATEMENTS                              ##
 ##############################################################################
 
-import requests, time, random, webbrowser, datetime, platform
+import requests, time, random, webbrowser, datetime, platform, sys
 import ftplib, getpass, os, json 
 from bs4 import BeautifulSoup
 import pyttsx3 as pyttsx
@@ -53,6 +53,7 @@ import pyttsx3 as pyttsx
 def speaktext(text):
     # speak to a user from a text sample
     engine=pyttsx.init()
+    engine.setProperty('voice','com.apple.speech.synthesis.voice.fiona')
     engine.say(text)
     engine.runAndWait()
 

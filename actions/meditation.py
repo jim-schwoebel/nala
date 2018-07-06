@@ -39,7 +39,7 @@ user through a 60 second meditation to breathe deeply in and out.
 ##############################################################################
 
 import time, pygame, datetime, webbrowser, ftplib, getpass, os, importlib
-import random, platform, json
+import random, platform, json, sys
 
 ##############################################################################
 ##                            HELPER FUNCTIONS                              ##

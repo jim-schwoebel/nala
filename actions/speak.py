@@ -7,4 +7,4 @@ def say(text):
     engine.say(text)
     engine.runAndWait()
 
-say(str(sys.argv[2]))
+say(str(sys.argv[1]))

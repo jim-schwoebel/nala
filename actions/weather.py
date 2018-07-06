@@ -39,7 +39,7 @@ connection exists.
 ##                           IMPORT STATEMENTS                              ##
 ##############################################################################
 
-import requests, time, datetime, ftplib, platform, json, getpass, os
+import requests, time, datetime, ftplib, platform, json, getpass, os, sys
 from bs4 import BeautifulSoup
 import pyttsx3 as pyttsx
 
@@ -57,10 +57,9 @@ def connected_to_internet(url='http://www.google.com/', timeout=5):
     return False
 
 def speaktext(text):
-    
     # speak to user from a text sample (tts system)
-    
     engine = pyttsx.init()
+    engine.setProperty('voice','com.apple.speech.synthesis.voice.fiona')
     engine.say(text)
     engine.runAndWait()
 
@@ -116,9 +115,9 @@ if internet_access==True:
     speak_text='It is %s and %s in %s'%(cur_temp, cur_conditions,city)
     print(speak_text)
     speaktext(speak_text)
-    time.sleep(0.5)
-    print(desc)
-    speaktext(desc)
+    #time.sleep(0.5)
+    #print(desc)
+    #speaktext(desc)
     
     #if desc.find('showers')!= -1:
         #speaktext('You may want to bring an umbrella with you. It may rain.')
@@ -132,7 +131,7 @@ if internet_access==True:
     action={
         'action': 'weather.py',
         'date': get_date(),
-        'meta': [all_loc_data, speak_text, desc],
+        'meta': [all_loc_data, speak_text],
     }
 
     action_log.append(action)

@@ -9,7 +9,7 @@ Open up a url that is relevant to a query; attach voice interface to this.
 ##                            IMPORT STATEMENTS                             ##
 ##############################################################################
 
-import requests, random, webbrowser 
+import requests, random, webbrowser, sys
 from bs4 import BeautifulSoup
 import pyttsx3 as pyttsx 
 
@@ -20,6 +20,7 @@ import pyttsx3 as pyttsx
 def speaktext(text):
     # speak to user from a text sample (tts system)
     engine = pyttsx.init()
+    engine.setProperty('voice','com.apple.speech.synthesis.voice.fiona')
     engine.say(text)
     engine.runAndWait()
 

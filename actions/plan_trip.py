@@ -3,7 +3,7 @@ Get flights.
 
 '''
 from bs4 import BeautifulSoup
-import os, requests, json, webbrowser 
+import os, requests, json, webbrowser, sys
 
 def curloc():
     # get current location, limit 1000 requests/day

@@ -44,7 +44,7 @@ have. :-)
 ##############################################################################
 
 import pygame, random, datetime, time, pyaudio, ftplib, getpass, shutil, wave
-import webbrowser, smtplib, os, platform, json
+import webbrowser, smtplib, os, platform, json, sys
 from sys import byteorder
 from array import array
 from struct import pack
