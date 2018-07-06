@@ -350,6 +350,15 @@ def register_user(action_list, hostdir):
         'rest time': 0.10,
         'facenums': facenums,
         'registration date': get_date(),
+        'available actions': action_list,
+        'google tts': 'en-US-Wavenet-C',
+        }
+
+    json.dump(data,jsonfile)
+    jsonfile.close()
+
+    jsonfile=open('actions.json','w')
+    data = {
         'logins': [], # login datetime
         'logouts': [], # logout datetime (last time before login)
         'sessions': [],
@@ -358,23 +367,21 @@ def register_user(action_list, hostdir):
         'noise': [],
         'action count': 0,
         'action log': [], #action, datetime, other stuff 
-        'available actions': action_list,
-        'google tts': 'en-US-Wavenet-C',
         'loopnum': 0,
-        }
+    }
 
-    json.dump(data,jsonfile)
     jsonfile.close()
 
     # store 2 copies in case of deletion
     shutil.copy(os.getcwd()+'/registration.json', hostdir+'/registration.json')
     shutil.copy(os.getcwd()+'/settings.json', hostdir+'/settings.json')
+    shutil.copy(os.getcwd()+'/actions.json', hostdir+'/actions.json')
 
 
 def update_database(hostdir,logins,logouts,sessions,query_count,queries,noise,action_count,action_log,loopnum, alarm, end):
 
     # update only the fields that matter
-    data=json.load(open('registration.json'))
+    data=json.load(open('actions.json'))
 
     data['logins']=logins
     data['logouts']=logouts
@@ -386,10 +393,9 @@ def update_database(hostdir,logins,logouts,sessions,query_count,queries,noise,ac
     data['action log']=action_log,
     data['loopnum']=loopnum
 
-    jsonfile=open('registration.json','w')
+    jsonfile=open('actions.json','w')
     json.dump(data,jsonfile)
     jsonfile.close()
-
 
     data=json.load(open('settings.json'))
 
@@ -402,9 +408,9 @@ def update_database(hostdir,logins,logouts,sessions,query_count,queries,noise,ac
 
     # store backup copy just in case of deletion in read/write process 
     os.chdir(hostdir+'/data/baseline')
-    os.remove('registration.json')
+    os.remove('actions.json')
     os.remove('settings.json')
-    shutil.copy(hostdir+'/registration.json',os.getcwd()+'/registration.json')
+    shutil.copy(hostdir+'/actions.json',os.getcwd()+'/actions.json')
     shutil.copy(hostdir+'/settings.json',os.getcwd()+'/settings.json')
 
     os.chdir(hostdir)
@@ -418,9 +424,14 @@ def update_database(hostdir,logins,logouts,sessions,query_count,queries,noise,ac
 try:
     # load database 
     os.chdir(hostdir)
+
+    # registration data 
     database=json.load(open('registration.json'))
     name=database['name']
     regdate=database['registration date']
+
+    # action data 
+    database=json.load(open('actions.json'))
     logins=database['logins']
     logouts=database['logouts']
     sessions=database['sessions']
@@ -432,7 +443,6 @@ try:
     action_log=database['action log']
     loopnum=database['loopnum']
     avail_actions = database['available actions']
-    print(database)
     
     # settings.json
     settings=json.load(open('settings.json'))
@@ -455,10 +465,14 @@ except:
 
     # load database
     os.chdir(hostdir)
+
+    # registration data 
     database=json.load(open('registration.json'))
-    print(database)
     name=database['name']
     regdate=database['registration date']
+
+    # action data 
+    database=json.load(open('actions.json'))
     logins=database['logins']
     logouts=database['logouts']
     sessions=database['sessions']
@@ -470,7 +484,7 @@ except:
     action_log=database['action log']
     loopnum=database['loopnum']
     avail_actions = database['available actions']
-
+    
     # settings.json
     settings=json.load(open('settings.json'))
     alarm=settings['alarm']
