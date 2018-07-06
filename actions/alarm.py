@@ -35,8 +35,7 @@ Then plays the weather and also some music to gradually wake up.
 ##############################################################################
 ##                           IMPORT STATEMENTS                              ##
 ##############################################################################
-import webbrowser, ftplib, platform, json, getpass
-from datetime import datetime 
+import webbrowser, ftplib, platform, json, getpass, datetime 
 import pygame, os, time, sys
 import pyttsx3 as pyttsx
 
@@ -79,6 +78,7 @@ playbackaudio('wakeup.wav')
 
 # update database 
 hostdir=sys.argv[1]
+os.chdir(hostdir)
 database=json.load(open('registration.json'))
 action_log=database['action log']
 
