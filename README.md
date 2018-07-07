@@ -50,5 +50,5 @@ Nala has an event-driven structure with queries and responses to those queries.
 ... more to come into the future! 
 
 ## references 
-* []()
-* []()
+* [snowboy hotword detector](https://snowboy.kitt.ai/hotword/18587#)
+* [building language model with pocketsphinx](https://cmusphinx.github.io/wiki/tutoriallm/#using-keyword-lists-with-pocketsphinx)
