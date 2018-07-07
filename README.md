@@ -1,4 +1,4 @@
-# nala
+# Nala
 
 Nala is the world's most comprehensive open-source voice assistant for mac computers. 
 
