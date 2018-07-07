@@ -15,6 +15,12 @@ You will then be asked to register with your name and email.
 
 After that, you're ready to begin using Nala! 
 
+## how to query Nala
+
+To active Nala, all you need to do is query her with 'Hey Nala!'
+
+Note that you can change this wakeword during the setup process.
+
 ## what can Nala do
 
 Nala has an event-driven structure with queries and responses to those queries. 
