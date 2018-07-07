@@ -412,7 +412,7 @@ def update_database(hostdir,logins,logouts,session,sessions,query_count,queries,
     json.dump(data,jsonfile)
     jsonfile.close()
 
-    # store backup copy just in case of deletion in read/write process 
+    # store backup copy just in case of either database being corrupted 
     os.chdir(hostdir+'/data/baseline')
     os.remove('actions.json')
     os.remove('settings.json')
@@ -439,14 +439,34 @@ try:
     # load database 
     os.chdir(hostdir)
 
-    # registration data 
-    database=json.load(open('registration.json'))
+    # registration.json data 
+    try:
+        database=json.load(open('registration.json'))
+    except:
+        # restore database if corrupted
+        print('registration database corrupted, restoring...')
+        os.chdir(hostdir+'/data/baseline/')
+        database=json.load(open('registration.json'))
+        os.chdir(hostdir)
+        os.remove('registration.json')
+        shutil.copy(hostdir+'/data/baseline/registration.json',hostdir+'/registration.json')
+
     name=database['name']
     regdate=database['registration date']
     rest_time=database['rest time']
 
-    # action data 
-    database=json.load(open('actions.json'))
+    # actions.json data 
+    try:
+        database=json.load(open('actions.json'))
+    except:
+        # restore database if corrupted
+        print('actions database corrupted, restoring...')
+        os.chdir(hostdir+'/data/baseline/')
+        database=json.load(open('actions.json'))
+        os.chdir(hostdir)
+        os.remove('actions.json')
+        shutil.copy(hostdir+'/data/baseline/actions.json',hostdir+'/actions.json')
+        
     logins=database['logins']
     logouts=database['logouts']
     session=database['active session']
@@ -460,12 +480,22 @@ try:
     avail_actions = database['available actions']
     #print(database)
 
-    # settings.json
-    settings=json.load(open('settings.json'))
-    alarm=settings['alarm']
-    alarm_time=settings['alarm time']
-    greeting=settings['greeting']
-    end=settings['end']
+    # settings.json data
+    try:
+        database=json.load(open('settings.json'))
+    except:
+        # restore database if corrupted
+        print('settings database corrupted, restoring...')
+        os.chdir(hostdir+'/data/baseline/')
+        database=json.load(open('settings.json'))
+        os.chdir(hostdir)
+        os.remove('settings.json')
+        shutil.copy(hostdir+'/data/baseline/settings.json',hostdir+'/settings.json')
+        
+    alarm=database['alarm']
+    alarm_time=database['alarm time']
+    greeting=database['greeting']
+    end=database['end']
 
     # instantiate variables 
     logins.append(get_date())
@@ -474,9 +504,8 @@ try:
     turn_off = False
 
 except:
-    print('registering new user!')
     # register user if no user exists
-    #print(action_list)
+    print('registering new user!')
     register_user(action_list, hostdir)
 
     # load database
@@ -487,6 +516,7 @@ except:
     name=database['name']
     regdate=database['registration date']
     rest_time=database['rest time']
+
     # action data 
     database=json.load(open('actions.json'))
     logins=database['logins']
