@@ -38,6 +38,7 @@ Nala has an event-driven structure with queries and responses to those queries.
 * get coffee 
 * set the alarm
 * exercise 
+* [surprise me!]
 
 ... more to come into the future! 
 
