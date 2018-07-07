@@ -29,6 +29,10 @@ To active Nala, all you need to do is query her with 'Hey Nala!'
 
 Note that you can change this wakeword during the setup process.
 
+## how this works
+
+we use snowbird hotword detector (). We trained a model on a male's voice. 
+
 ## what can Nala do
 
 [Post video]
