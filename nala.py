@@ -1014,6 +1014,7 @@ while turn_off == False:
                         }
 
                         time.sleep(60*30)
+                        speaktext(hostdir,"Okay, I am back %s. I am here if you need me."%(name.split()[0]))
                         break
 
                     elif query_transcript[i] in ['off'] or transcript.find('log out')>=0:
@@ -1042,6 +1043,29 @@ while turn_off == False:
                         turn_off=True 
                         break 
 
+                    elif query_transcript[i] in ['chill'] or transcript.find('chill out')>=0:
+
+                        speaktext(hostdir,'Okay, %s. I will play some music to calm you down!'%(name.split()[0]))
+                        
+                        query={
+                            'date':get_date(),
+                            'audio': unique_sample,
+                            'transcript type': 'google speech API',
+                            'query transcript': query_transcript[i],
+                            'transcript': transcript,
+                            'response': 'python3 chillout.py',
+                        }
+
+                        logouts.append(get_date())
+                        query_count=query_count+1 
+                        queries.append(query)
+                        session.append(query)
+                        action_count=action_count+1
+                        query_request=True  
+                        end=time.time()
+                        os.system('python3 chillout.py %s'%(hostdir))
+                        break 
+
                     elif query_transcript[i] in ['shut', 'down', 'restart']:
 
                         if query_transcript.index('shut')>=0 and query_transcript.index('down')>=0:
@@ -1054,7 +1078,7 @@ while turn_off == False:
                                 'transcript type': 'google speech API',
                                 'query transcript': query_transcript[i],
                                 'transcript': transcript,
-                                'response': "python3 shutdown.py",
+                                'response': 'python3 shutdown.py',
                             }
 
                             query_count=query_count+1 

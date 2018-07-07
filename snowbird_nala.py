@@ -982,6 +982,29 @@ while turn_off == False:
                     query_request=True 
                     break
 
+                elif query_transcript[i] in ['chill'] or transcript.find('chill out')>=0:
+
+                    speaktext(hostdir,'Okay, %s. I will play some chillout vibes to calm you down. Namaste!'%(name.split()[0]))
+                    
+                    query={
+                        'date':get_date(),
+                        'audio': unique_sample,
+                        'transcript type': 'google speech API',
+                        'query transcript': query_transcript[i],
+                        'transcript': transcript,
+                        'response': 'python3 chillout.py',
+                    }
+
+                    logouts.append(get_date())
+                    query_count=query_count+1 
+                    queries.append(query)
+                    session.append(query)
+                    action_count=action_count+1
+                    query_request=True  
+                    end=time.time()
+                    os.system('python3 chillout.py %s'%(hostdir))
+                    break 
+
                 elif query_transcript[i] in ['sleep']:
 
                     speaktext(hostdir,"Okay, %s. I will sleep for 30 minutes."%(name.split()[0]))
