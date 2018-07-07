@@ -31,6 +31,8 @@ Note that you can change this wakeword during the setup process.
 
 ## what can Nala do
 
+[Post video]
+
 Nala has an event-driven structure with queries and responses to those queries. 
 
 * get the weather 
