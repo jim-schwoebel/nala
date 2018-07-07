@@ -360,6 +360,7 @@ def register_user(action_list, hostdir):
     data = {
         'logins': [], # login datetime
         'logouts': [], # logout datetime (last time before login)
+        'active session': [],
         'sessions': [],
         'query count': 0,
         'queries': [],
@@ -380,13 +381,14 @@ def register_user(action_list, hostdir):
     speaktext(hostdir, 'Thank you, you are now registered.')
 
 
-def update_database(hostdir,logins,logouts,sessions,query_count,queries,noise,action_count,loopnum, alarm, end):
+def update_database(hostdir,logins,logouts,session,sessions,query_count,queries,noise,action_count,loopnum, alarm, end):
 
     # update only the fields that matter
     data=json.load(open('actions.json'))
 
     data['logins']=logins
     data['logouts']=logouts
+    data['active session']=session
     data['sessions']=sessions
     data['query count']=query_count
     data['queries']=queries
@@ -416,6 +418,14 @@ def update_database(hostdir,logins,logouts,sessions,query_count,queries,noise,ac
 
     os.chdir(hostdir)
 
+def wav_cleanup():
+    # remove .wav files in current directory to clean it up
+    # before next query 
+    listdir=os.listdir()
+    for i in range(len(listdir)):
+        if listdir[i][-4:]=='.wav':
+            os.remove(listdir[i])
+
 ##############################################################################
 ##                           LOAD DATABASE                                  ##
 ##############################################################################
@@ -436,6 +446,7 @@ try:
     database=json.load(open('actions.json'))
     logins=database['logins']
     logouts=database['logouts']
+    session=database['active session']
     sessions=database['sessions']
     query_count=database['query count']
     queries=database['queries']
@@ -444,7 +455,7 @@ try:
     action_log=database['action log']
     loopnum=database['loopnum']
     avail_actions = database['available actions']
-    print(database)
+    #print(database)
 
     # settings.json
     settings=json.load(open('settings.json'))
@@ -454,6 +465,7 @@ try:
     end=settings['end']
 
     # instantiate variables 
+    sessions.append(session)
     session=list()
     logins.append(get_date())
     t=1
@@ -473,11 +485,11 @@ except:
     name=database['name']
     regdate=database['registration date']
     rest_time=database['rest time']
-
     # action data 
     database=json.load(open('actions.json'))
     logins=database['logins']
     logouts=database['logouts']
+    session=database['active session']
     sessions=database['sessions']
     query_count=database['query count']
     queries=database['queries']
@@ -495,7 +507,6 @@ except:
     end=settings['end']
 
     # instantiate variables
-    session=list()
     logins.append(get_date())
     t=1
     query_request=False 
@@ -515,11 +526,14 @@ while t>0:
         # set alarm and make false after you trigger alarm 
         if alarm == True and alarm_time == datetime.now().hour:
             os.chdir(hostdir+'/actions')
-            os.system('python3 weather.py %s'%(hostdir))
+            os.system('python3 alarm.py %s'%(hostdir))
             alarm == False
             os.chdir(hostdir)
 
         if abs(end-start) > 60*60:
+
+            end=time.time()
+
             if greeting == True:
                speaktext(hostdir,'welcome back, %s'%(name.split()[0]))
                os.chdir(hostdir+'/actions')
@@ -545,7 +559,7 @@ while t>0:
         record_to_file(os.getcwd(),'detect.wav', 3.0)
         transcript=transcribe_audio_sphinx('detect.wav')
         print('sphinx: '+transcript)
-
+        
         if transcript in ['hey jim', 'hey jenn', 'jim', 'atm']:
 
             wakeword='detect'+'_'+str(loopnum)+'.wav'
@@ -864,7 +878,6 @@ while t>0:
 
                     elif query_transcript[i] in ['grateful', 'gratitude']:
 
-                        os.chdir(os.getcwd()+'/actions')
                         os.system('python3 grateful.py %s'%(hostdir))
                         query={
                             'date':get_date(),
@@ -883,7 +896,6 @@ while t>0:
 
                     elif query_transcript[i] in ['meditation', 'meditate', 'relax']:
 
-                        os.chdir(os.getcwd()+'/actions')
                         os.system('python3 meditation.py %s'%(hostdir))
                         query={
                             'date':get_date(),
@@ -899,6 +911,101 @@ while t>0:
                         session.append(query)
                         action_count=action_count+1
                         query_request=True  
+                    elif query_transcript[i] in ['sleep']:
+
+                        speaktext(hostdir,"Okay, %s. I'll sleep for 30 minutes."%(name.split()[0]))
+
+                        query={
+                            'date':get_date(),
+                            'audio': unique_sample,
+                            'transcript type': 'google speech API',
+                            'query transcript': query_transcript[i],
+                            'transcript': transcript,
+                            'response': 'sleep for 30 minutes',
+                        }
+
+                        time.sleep(60*30)
+
+                    elif query_transcript[i] in ['off']:
+
+                        speaktext(hostdir,"Okay, %s. I'll turn myself off. See you next time!"%(name.split()[0]))
+                        
+                        query={
+                            'date':get_date(),
+                            'audio': unique_sample,
+                            'transcript type': 'google speech API',
+                            'query transcript': query_transcript[i],
+                            'transcript': transcript,
+                            'response': 'break loop and turn off script',
+                        }
+
+                        query_count=query_count+1 
+                        queries.append(query)
+                        session.append(query)
+                        action_count=action_count+1
+                        query_request=True  
+                        end=time.time()
+                        session.append('updated database @ %s'%(get_date()))
+                        try:
+                            update_database(hostdir,logins,logouts,session,sessions,query_count,queries,noise,action_count,loopnum, alarm, end)
+                        except:
+                            print('error updating database')
+                        # turn off python script 
+                        sys.exit()
+
+                    elif query_transcript[i] in ['shut', 'down', 'restart']:
+
+                        if query_transcript.index('shut')>=0 and query_transcript.index('down')>=0:
+                            # only shutdown if both shut and down are present in google transcript 
+                            speaktext(hostdir,"Okay, %s. I'll shutdown the computer in 10 seconds. See you next time!"%(name.split()[0]))
+                           
+                            query={
+                                'date':get_date(),
+                                'audio': unique_sample,
+                                'transcript type': 'google speech API',
+                                'query transcript': query_transcript[i],
+                                'transcript': transcript,
+                                'response': "shutdown -h 10",
+                            }
+
+                            query_count=query_count+1 
+                            queries.append(query)
+                            session.append(query)
+                            action_count=action_count+1
+                            query_request=True  
+                            end=time.time()
+                            print(query_request)
+                            session.append('updated database @ %s'%(get_date()))
+                            update_database(hostdir,logins,logouts,session,sessions,query_count,queries,noise,action_count,loopnum, alarm, end)
+
+                            command = 'shutdown -h now'
+                            os.system('echo %s|sudo -S %s'%(os.environ['SUDO_PASSWORD'], command))
+
+                        elif query_transcript[i] == 'restart':
+                            # restart computer using a forced reboot 
+                            speaktext(hostdir,"Okay, %s. I'll restart the computer in 10 seconds. See you next time!"%(name.split()[0]))
+                            
+                            query={
+                                'date':get_date(),
+                                'audio': unique_sample,
+                                'transcript type': 'google speech API',
+                                'query transcript': query_transcript[i],
+                                'transcript': transcript,
+                                'response': "sudo restart -h 10",
+                            }
+
+                            query_count=query_count+1 
+                            queries.append(query)
+                            session.append(query)
+                            action_count=action_count+1
+                            query_request=True  
+                            end=time.time()
+                            print(query_request)
+                            session.append('updated database @ %s'%(get_date()))
+                            update_database(hostdir,logins,logouts,session,sessions,query_count,queries,noise,action_count,loopnum, alarm, end)
+                            
+                            command = 'reboot'
+                            os.system('echo %s|sudo -S %s'%(os.environ['SUDO_PASSWORD'], command))
 
                     else:
 
@@ -935,11 +1042,21 @@ while t>0:
         else:
             pass
 
+        # update database 
         query_request=False 
         end=time.time()
-        print(query_request)
         session.append('updated database @ %s'%(get_date()))
-        update_database(hostdir,logins,logouts,sessions,query_count,queries,noise,action_count,loopnum, alarm, end)
+        try:
+            update_database(hostdir,logins,logouts,session,sessions,query_count,queries,noise,action_count,loopnum, alarm, end)
+        except:
+            print('error updating database')
+
+        # clean up wav files in host directory 
+        try:
+            os.chdir(hostdir)
+            wav_cleanup()
+        except:
+            pass
 
     except:
         pass 
