@@ -652,14 +652,14 @@ while turn_off == False:
 
                     elif query_transcript[i] in ['coffee']:
 
-                        os.system('python3 coffeebreak.py %s coffee'%(hostdir))
+                        os.system('python3 yelp.py %s coffee'%(hostdir))
                         query={
                             'date':get_date(),
                             'audio': unique_sample,
                             'transcript type': 'google speech API',
                             'query transcript': query_transcript[i],
                             'transcript': transcript,
-                            'response': 'python3 coffeebreak.py'
+                            'response': 'python3 yelp.py'
                         }
 
                         query_count=query_count+1 
@@ -703,6 +703,7 @@ while turn_off == False:
                         session.append(query)
                         action_count=action_count+1
                         query_request=True 
+                        break
 
                     elif query_transcript[i] in ['exercise','run','workout']:
 
@@ -721,6 +722,7 @@ while turn_off == False:
                         session.append(query)
                         action_count=action_count+1
                         query_request=True 
+                        break
 
                     elif query_transcript[i] in ['sports','nba','cavs']:
 
@@ -739,11 +741,12 @@ while turn_off == False:
                         session.append(query)
                         action_count=action_count+1
                         query_request=True 
+                        break
 
                     elif query_transcript[i] in ['book', 'flight', 'travel']:
 
-                        speaktext(hostdir,'please type the responses below to schedule your trip!')
-                        os.system('python3 plan_trip.py %s'%(hostdir))
+                        speaktext(hostdir,'Ok, great %s! I need a bit more information to do that.'%(name.split()[0]))
+                        os.system('python3 plan_trip-speak.py %s'%(hostdir))
                         query={
                             'date':get_date(),
                             'audio': unique_sample,
@@ -758,6 +761,7 @@ while turn_off == False:
                         session.append(query)
                         action_count=action_count+1
                         query_request=True 
+                        break
 
                     elif query_transcript[i] in ['alarm']:
 
@@ -808,7 +812,8 @@ while turn_off == False:
                         queries.append(query)
                         session.append(query)
                         action_count=action_count+1
-                        query_request=True    
+                        query_request=True
+                        break    
 
                     elif query_transcript[i] in ['search']:
 
@@ -835,17 +840,21 @@ while turn_off == False:
                         session.append(query)
                         action_count=action_count+1
                         query_request=True    
+                        break
 
                     elif query_transcript[i] in ['food', 'eat', 'restaurants']:
+
+                        speaktext(hostdir,"Okay, %s. I will find you a place to eat nearby."%(name.split()[0]))
                             
-                        os.system('python3 coffeebreak.py %s food'%(hostdir))
+                        os.system('python3 yelp.py %s food'%(hostdir))
+
                         query={
                             'date':get_date(),
                             'audio': unique_sample,
                             'transcript type': 'google speech API',
                             'query transcript': query_transcript[i],
                             'transcript': transcript,
-                            'response': 'python3 coffeebreak.py %s food'%(hostdir)
+                            'response': 'python3 yelp.py %s food'%(hostdir)
                         }
 
                         query_count=query_count+1 
@@ -853,11 +862,78 @@ while turn_off == False:
                         session.append(query)
                         action_count=action_count+1
                         query_request=True 
+                        break
 
+                    elif query_transcript[i] in ['nightlife']:
+
+                        speaktext(hostdir,"Okay, %s. I will find you some things to do tonight."%(name.split()[0]))
+
+                        os.system('python3 yelp.py %s nightlife'%(hostdir))
+
+                        query={
+                            'date':get_date(),
+                            'audio': unique_sample,
+                            'transcript type': 'google speech API',
+                            'query transcript': query_transcript[i],
+                            'transcript': transcript,
+                            'response': 'python3 yelp.py %s nightlife'%(hostdir)
+                        }
+
+                        query_count=query_count+1 
+                        queries.append(query)
+                        session.append(query)
+                        action_count=action_count+1
+                        query_request=True 
+                        break
+
+                    elif query_transcript[i] in ['bar','beer','beers']:
+
+                        speaktext(hostdir,"Okay, %s. I will find you a bar."%(name.split()[0]))
+
+                        os.system('python3 yelp.py %s beers'%(hostdir))
+
+                        query={
+                            'date':get_date(),
+                            'audio': unique_sample,
+                            'transcript type': 'google speech API',
+                            'query transcript': query_transcript[i],
+                            'transcript': transcript,
+                            'response': 'python3 yelp.py %s beers'%(hostdir)
+                        }
+
+                        query_count=query_count+1 
+                        queries.append(query)
+                        session.append(query)
+                        action_count=action_count+1
+                        query_request=True 
+                        break
+
+                    elif query_transcript[i] in ['ice','cream'] or transcript.find('ice cream')>=0:
+
+                        speaktext(hostdir,"Okay, %s. I will find you some ice cream nearby."%(name.split()[0]))
+
+                        os.system("python3 yelp.py %s 'ice cream'"%(hostdir))
+
+                        query={
+                            'date':get_date(),
+                            'audio': unique_sample,
+                            'transcript type': 'google speech API',
+                            'query transcript': query_transcript[i],
+                            'transcript': transcript,
+                            'response': "python3 yelp.py %s 'ice cream'"%(hostdir)
+                        }
+
+                        query_count=query_count+1 
+                        queries.append(query)
+                        session.append(query)
+                        action_count=action_count+1
+                        query_request=True   
+                        break   
 
                     elif query_transcript[i] in ['grateful', 'gratitude']:
 
                         os.system('python3 grateful.py %s'%(hostdir))
+
                         query={
                             'date':get_date(),
                             'audio': unique_sample,
@@ -872,10 +948,12 @@ while turn_off == False:
                         session.append(query)
                         action_count=action_count+1
                         query_request=True  
+                        break
 
                     elif query_transcript[i] in ['meditation', 'meditate', 'relax']:
 
                         os.system('python3 meditation.py %s'%(hostdir))
+
                         query={
                             'date':get_date(),
                             'audio': unique_sample,
@@ -890,10 +968,11 @@ while turn_off == False:
                         session.append(query)
                         action_count=action_count+1
                         query_request=True 
+                        break
 
                     elif query_transcript[i] in ['sleep']:
 
-                        speaktext(hostdir,"Okay, %s. I'll sleep for 30 minutes."%(name.split()[0]))
+                        speaktext(hostdir,"Okay, %s. I will sleep for 30 minutes."%(name.split()[0]))
 
                         query={
                             'date':get_date(),
@@ -905,6 +984,7 @@ while turn_off == False:
                         }
 
                         time.sleep(60*30)
+                        break
 
                     elif query_transcript[i] in ['off'] or transcript.find('log out')>=0:
 
@@ -957,6 +1037,7 @@ while turn_off == False:
                             session.append('updated database @ %s'%(get_date()))
                             update_database(hostdir,logins,logouts,session,sessions,query_count,queries,noise,action_count,loopnum, alarm, end)
                             os.system('python3 shutdown.py')
+                            break
 
                         elif query_transcript[i] == 'restart':
                             # restart computer using a forced reboot 
@@ -981,6 +1062,7 @@ while turn_off == False:
                             session.append('updated database @ %s'%(get_date()))
                             update_database(hostdir,logins,logouts,session,sessions,query_count,queries,noise,action_count,loopnum, alarm, end)
                             os.system('python3 reboot.py')
+                            break
 
                     else:
 
@@ -1020,7 +1102,8 @@ while turn_off == False:
         # update database 
         query_request=False 
         end=time.time()
-        session.append('updated database @ %s'%(get_date()))
+        # can include this info in session, but I have left out because it can get a bit messy
+        # session.append('updated database @ %s'%(get_date()))
         try:
             update_database(hostdir,logins,logouts,session,sessions,query_count,queries,noise,action_count,loopnum, alarm, end)
         except:
