@@ -11,7 +11,7 @@ It's super easy to setup Nala. All you need to do is:
     python3 setup.py
     python3 nala.py
     
-You will then be asked to register with your Name and Email.
+You will then be asked to register with your name and email.
 
 After that, you're ready to begin using Nala! 
 
