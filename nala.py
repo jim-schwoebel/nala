@@ -109,7 +109,7 @@ def speaktext(hostdir,text):
     # speak to user from a text sample (tts system)  
     curdir=os.getcwd()
     os.chdir(hostdir+'/actions') 
-    os.system("python3 speak.py '%s'"%(text))
+    os.system("python3 speak.py '%s'"%(str(text)))
     os.chdir(curdir)
 
 def curloc():
@@ -383,6 +383,9 @@ def register_user(action_list, hostdir):
 
 def update_database(hostdir,logins,logouts,session,sessions,query_count,queries,noise,action_count,loopnum, alarm, end):
 
+    curdir=os.getcwd()
+    os.chdir(hostdir)
+
     # update only the fields that matter
     data=json.load(open('actions.json'))
 
@@ -416,7 +419,7 @@ def update_database(hostdir,logins,logouts,session,sessions,query_count,queries,
     shutil.copy(hostdir+'/actions.json',os.getcwd()+'/actions.json')
     shutil.copy(hostdir+'/settings.json',os.getcwd()+'/settings.json')
 
-    os.chdir(hostdir)
+    os.chdir(curdir)
 
 def wav_cleanup():
     # remove .wav files in current directory to clean it up
@@ -465,11 +468,10 @@ try:
     end=settings['end']
 
     # instantiate variables 
-    sessions.append(session)
-    session=list()
     logins.append(get_date())
     t=1
     query_request=False 
+    turn_off = False
 
 except:
     print('registering new user!')
@@ -510,12 +512,13 @@ except:
     logins.append(get_date())
     t=1
     query_request=False 
+    turn_off = False
 
 ##############################################################################
 ##                           MAIN SCRIPT                                    ##
 ##############################################################################
 
-while t>0:
+while turn_off == False:
     # record a 3.0 second voice sample
     # use try statement to avoid errors 
     try:
@@ -540,16 +543,7 @@ while t>0:
                os.system('python3 weather.py %s'%(hostdir))
                os.chdir(hostdir)
 
-            # logout is the last activity from a query 
-            try:
-                logouts.append(queries[-1]['date'])
-            except:
-                pass 
-
-            print(get_date())
-            # start a new login
-            logins.append(get_date())
-            # log session 
+            # log session if the time of activity is greater than 60 minutes
             sessions.append(session)
             # start a new session 
             session=list()
@@ -588,7 +582,7 @@ while t>0:
                     speaktext(hostdir,'how can I help you?')
                     playbackaudio(hostdir+'/data/tone.wav')
                 else:
-                    speaktext(hostdir,"Sorry, I didn't get that. How can I help?")
+                    speaktext(hostdir,"Sorry, I did not get that. How can I help?")
                     playbackaudio(hostdir+'/data/tone.wav')
 
                 time.sleep(0.50)
@@ -769,7 +763,7 @@ while t>0:
 
                         if transcript == 'set alarm':
 
-                            speaktext(hostdir,'setting alarm for %s in the morning'%(alarm_time))
+                            speaktext(hostdir,'setting alarm for %s in the morning'%(str(alarm_time)))
 
                             query={
                                 'date':get_date(),
@@ -843,31 +837,16 @@ while t>0:
                         query_request=True    
 
                     elif query_transcript[i] in ['food', 'eat', 'restaurants']:
-
-                        randomnum=random.randint(0,1)
-                        if randomnum ==0:
                             
-                            os.system('python3 coffeebreak.py %s food'%(hostdir))
-                            query={
-                                'date':get_date(),
-                                'audio': unique_sample,
-                                'transcript type': 'google speech API',
-                                'query transcript': query_transcript[i],
-                                'transcript': transcript,
-                                'response': 'python3 coffeebreak.py %s food'%(hostdir)
-                            }
-
-                        else:
-
-                            os.system('python3 nutrition.py %s'%(hostdir))
-                            query={
-                                'date':get_date(),
-                                'audio': unique_sample,
-                                'transcript type': 'google speech API',
-                                'query transcript': query_transcript[i],
-                                'transcript': transcript,
-                                'response': 'python3 nutrition.py %s'%(hostdir)
-                            }
+                        os.system('python3 coffeebreak.py %s food'%(hostdir))
+                        query={
+                            'date':get_date(),
+                            'audio': unique_sample,
+                            'transcript type': 'google speech API',
+                            'query transcript': query_transcript[i],
+                            'transcript': transcript,
+                            'response': 'python3 coffeebreak.py %s food'%(hostdir)
+                        }
 
                         query_count=query_count+1 
                         queries.append(query)
@@ -910,7 +889,8 @@ while t>0:
                         queries.append(query)
                         session.append(query)
                         action_count=action_count+1
-                        query_request=True  
+                        query_request=True 
+
                     elif query_transcript[i] in ['sleep']:
 
                         speaktext(hostdir,"Okay, %s. I'll sleep for 30 minutes."%(name.split()[0]))
@@ -926,9 +906,9 @@ while t>0:
 
                         time.sleep(60*30)
 
-                    elif query_transcript[i] in ['off']:
+                    elif query_transcript[i] in ['off'] or transcript.find('log out')>=0:
 
-                        speaktext(hostdir,"Okay, %s. I'll turn myself off. See you next time!"%(name.split()[0]))
+                        speaktext(hostdir,'Okay, %s. I will turn myself off. See you next time!'%(name.split()[0]))
                         
                         query={
                             'date':get_date(),
@@ -936,9 +916,11 @@ while t>0:
                             'transcript type': 'google speech API',
                             'query transcript': query_transcript[i],
                             'transcript': transcript,
-                            'response': 'break loop and turn off script',
+                            'response': '',
+                            'meta': 'logged off with turn_off = True',
                         }
 
+                        logouts.append(get_date())
                         query_count=query_count+1 
                         queries.append(query)
                         session.append(query)
@@ -946,18 +928,15 @@ while t>0:
                         query_request=True  
                         end=time.time()
                         session.append('updated database @ %s'%(get_date()))
-                        try:
-                            update_database(hostdir,logins,logouts,session,sessions,query_count,queries,noise,action_count,loopnum, alarm, end)
-                        except:
-                            print('error updating database')
-                        # turn off python script 
-                        sys.exit()
+                        update_database(hostdir,logins,logouts,session,sessions,query_count,queries,noise,action_count,loopnum, alarm, end)
+                        turn_off=True 
+                        break 
 
                     elif query_transcript[i] in ['shut', 'down', 'restart']:
 
                         if query_transcript.index('shut')>=0 and query_transcript.index('down')>=0:
                             # only shutdown if both shut and down are present in google transcript 
-                            speaktext(hostdir,"Okay, %s. I'll shutdown the computer in 10 seconds. See you next time!"%(name.split()[0]))
+                            speaktext(hostdir,'Okay, %s. I will shutdown the computer. See you next time!'%(name.split()[0]))
                            
                             query={
                                 'date':get_date(),
@@ -965,7 +944,7 @@ while t>0:
                                 'transcript type': 'google speech API',
                                 'query transcript': query_transcript[i],
                                 'transcript': transcript,
-                                'response': "shutdown -h 10",
+                                'response': "python3 shutdown.py",
                             }
 
                             query_count=query_count+1 
@@ -977,13 +956,11 @@ while t>0:
                             print(query_request)
                             session.append('updated database @ %s'%(get_date()))
                             update_database(hostdir,logins,logouts,session,sessions,query_count,queries,noise,action_count,loopnum, alarm, end)
-
-                            command = 'shutdown -h now'
-                            os.system('echo %s|sudo -S %s'%(os.environ['SUDO_PASSWORD'], command))
+                            os.system('python3 shutdown.py')
 
                         elif query_transcript[i] == 'restart':
                             # restart computer using a forced reboot 
-                            speaktext(hostdir,"Okay, %s. I'll restart the computer in 10 seconds. See you next time!"%(name.split()[0]))
+                            speaktext(hostdir,'Okay, %s. I will restart the computer. See you next time!'%(name.split()[0]))
                             
                             query={
                                 'date':get_date(),
@@ -991,7 +968,7 @@ while t>0:
                                 'transcript type': 'google speech API',
                                 'query transcript': query_transcript[i],
                                 'transcript': transcript,
-                                'response': "sudo restart -h 10",
+                                'response': "python3 reboot.py",
                             }
 
                             query_count=query_count+1 
@@ -1003,9 +980,7 @@ while t>0:
                             print(query_request)
                             session.append('updated database @ %s'%(get_date()))
                             update_database(hostdir,logins,logouts,session,sessions,query_count,queries,noise,action_count,loopnum, alarm, end)
-                            
-                            command = 'reboot'
-                            os.system('echo %s|sudo -S %s'%(os.environ['SUDO_PASSWORD'], command))
+                            os.system('python3 reboot.py')
 
                     else:
 
@@ -1064,8 +1039,7 @@ while t>0:
     # sleep appropriately before each query to not harm the processor and suck battery 
     time.sleep(rest_time)
     loopnum=loopnum+1 
-    
 
-
-
+# say goodbye if loop breaks and is turned off 
+speaktext(hostdir,'Goodbye')
     
