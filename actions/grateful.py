@@ -209,9 +209,10 @@ time.sleep(1)
 hostdir=sys.argv[1]
 os.chdir(hostdir)
 database=json.load(open('registration.json'))
-action_log=database['action log']
 name=database['name']
 email=database['email']
+database=json.load(open('actions.json'))
+action_log=database['action log']
 
 #import name, email from before 
 webbrowser.open("http://actions.neurolex.co/uploads/grateful.m4a")
@@ -247,7 +248,7 @@ action={
 action_log.append(action)
 database['action log']=action_log
 
-jsonfile=open('registration.json','w')
+jsonfile=open('actions.json','w')
 json.dump(database,jsonfile)
 jsonfile.close()
 

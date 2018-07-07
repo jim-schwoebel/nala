@@ -125,7 +125,7 @@ if internet_access==True:
     # update database 
     hostdir=sys.argv[1]
     os.chdir(hostdir)
-    database=json.load(open('registration.json'))
+    database=json.load(open('actions.json'))
     action_log=database['action log']
 
     action={
@@ -137,7 +137,7 @@ if internet_access==True:
     action_log.append(action)
     database['action log']=action_log
 
-    jsonfile=open('registration.json','w')
+    jsonfile=open('actions.json','w')
     json.dump(database,jsonfile)
     jsonfile.close()
 
@@ -151,7 +151,7 @@ else:
     # update database 
     hostdir=sys.argv[1]
     os.chdir(hostdir)
-    database=json.load(open('registration.json'))
+    database=json.load(open('actions.json'))
     action_log=database['action log']
 
     action={
@@ -163,7 +163,7 @@ else:
     action_log.append(action)
     database['action log']=action_log
 
-    jsonfile=open('registration.json','w')
+    jsonfile=open('actions.json','w')
     json.dump(database,jsonfile)
     jsonfile.close()
 

@@ -840,15 +840,16 @@ except:
 hostdir=sys.argv[1]
 os.chdir(hostdir)
 database=json.load(open('registration.json'))
-action_log=database['action log']
 name=database['name']
 email=database['email']
+database=json.load(open('actions.json'))
+action_log=database['action log']
 
 message='Hey %s, \n\n Looks like you are stressed today. \n\n Perhaps take a quick break and listen to %s! \n\n Remember, be well! \n\n Cheers, \n\n -The NeuroLex Team'%(name.split()[0].title(), g[10:])
 sendmail([email],'NeuroLex: Listen to this song!', message, os.environ['NEUROLEX_EMAIL'], os.environ['NEUROLEX_EMAIL_PASSWORD'], [])
 
 action={
-    'action': 'search.py',
+    'action': 'music.py',
     'date': get_date(),
     'meta': [musictype, link],
 }
@@ -856,7 +857,7 @@ action={
 action_log.append(action)
 database['action log']=action_log
 
-jsonfile=open('registration.json','w')
+jsonfile=open('actions.json','w')
 json.dump(database,jsonfile)
 jsonfile.close()
 

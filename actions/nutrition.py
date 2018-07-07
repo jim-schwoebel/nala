@@ -776,9 +776,10 @@ for i in range(3):
 hostdir=sys.argv[1]
 os.chdir(hostdir)
 database=json.load(open('registration.json'))
-action_log=database['action log']
 name=database['name']
 email=database['email']
+database=json.load(open('actions.json'))
+action_log=database['action log']
 
 # send email to user 
 one=notify[0]
@@ -797,6 +798,6 @@ action={
 action_log.append(action)
 database['action log']=action_log
 
-jsonfile=open('registration.json','w')
+jsonfile=open('actions.json','w')
 json.dump(database,jsonfile)
 jsonfile.close()

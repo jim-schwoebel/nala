@@ -1409,7 +1409,7 @@ if city not in listofcities:
     # update database 
     hostdir=sys.argv[1]
     os.chdir(hostdir)
-    database=json.load(open('registration.json'))
+    database=json.load(open('actions.json'))
     action_log=database['action log']
 
     action={
@@ -1421,7 +1421,7 @@ if city not in listofcities:
     action_log.append(action)
     database['action log']=action_log
 
-    jsonfile=open('registration.json','w')
+    jsonfile=open('actions.json','w')
     json.dump(database,jsonfile)
     jsonfile.close()
 
@@ -1441,9 +1441,10 @@ else:
     hostdir=sys.argv[1]
     os.chdir(hostdir)
     database=json.load(open('registration.json'))
-    action_log=database['action log']
     name=database['name']
     email=database['email']
+    database=json.load(open('actions.json'))
+    action_log=database['action log']
 
     message='Hey %s, \n\n Looks like you are stressed today. Perhaps go out and %s! \n\n Here is a good route: \n\n  %s \n\n Remember, be well! \n\n Cheers, \n\n -The NeuroLex Team'%(name.split()[0].title(), exercisetype, g)
     sendmail([email],'NeuroLex: Go exercise!', message, os.environ['NEUROLEX_EMAIL'], os.environ['NEUROLEX_EMAIL_PASSWORD'], [])
@@ -1457,7 +1458,7 @@ else:
     action_log.append(action)
     database['action log']=action_log
 
-    jsonfile=open('registration.json','w')
+    jsonfile=open('actions.json','w')
     json.dump(database,jsonfile)
     jsonfile.close()
 

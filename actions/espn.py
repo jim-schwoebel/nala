@@ -76,7 +76,7 @@ else:
 # update database 
 hostdir=sys.argv[1]
 os.chdir(hostdir)
-database=json.load(open('registration.json'))
+database=json.load(open('actions.json'))
 action_log=database['action log']
 
 action={
@@ -88,6 +88,6 @@ action={
 action_log.append(action)
 database['action log']=action_log
 
-jsonfile=open('registration.json','w')
+jsonfile=open('actions.json','w')
 json.dump(database,jsonfile)
 jsonfile.close()
