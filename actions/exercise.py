@@ -52,6 +52,7 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email.utils import COMMASPACE, formatdate
 from email import encoders
+import pyttsx3 as pyttsx 
 
 ##############################################################################
 ##                            HELPER FUNCTIONS                              ##
@@ -1369,42 +1370,34 @@ def exercise(nearestcity, exercise, distance):
                 route10="Loop around Highland Park, 8.346 miles: https://www.plotaroute.com/route/245115"
                 return str(randomrouteselection(route1,route2,route3,route4,route5,route6,route7,route8,route9,route10))
 
+def speaktext(text):
+    # speak to user from a text sample (tts system)
+    engine = pyttsx.init()
+    engine.setProperty('voice','com.apple.speech.synthesis.voice.fiona')
+    engine.say(text)
+    engine.runAndWait()
+
 ##############################################################################
 ##                            MAIN SCRIPT                                   ##
 ##############################################################################
 
+hostdir=sys.argv[1]
 distance=3
-
-exercisetype="run"
-
-if exercisetype == "run":
-    webbrowser.open("http://actions.neurolex.co/uploads/run.m4a")
-    time.sleep(2)
-    webbrowser.open('http://actions.neurolex.co/uploads/run.png')
-    time.sleep(5)
-
-elif exercisetype=="walk":
-    webbrowser.open("http://actions.neurolex.co/uploads/walk.m4a")
-    time.sleep(2)
-    webbrowser.open('http://actions.neurolex.co/uploads/walk.png')
-    time.sleep(5)
-
-elif exercisetype=="bike":
-    webbrowser.open("http://actions.neurolex.co/uploads/bike.m4a")
-    time.sleep(2)
-    webbrowser.open('http://actions.neurolex.co/uploads/bike.png')
-    time.sleep(5)
-    
+exercisetype="run"    
 location=curloc()
 city=location['city'].lower()
+
 if city == 'cambridge':
     city = 'boston'
+
 listofcities=['chicago','boston','philadelphia','new york city', 'houston"', 'dallas', 'san antonio', 'austin', 'atlanta', 'seattle', 'san francisco', 'los angeles']
 
 # go through script only if the city is in the listofcities 
 if city not in listofcities:
-    message="sorry we currently do not support exercise routes for your city. Check back in a few months and we'll probably be there."
+
+    message="sorry I cannot find an exercise route for your city. Check back in a few months and I will probably have one."
     print(message)
+    speaktext(hostdir, message)
 
     # update database 
     hostdir=sys.argv[1]
@@ -1431,23 +1424,21 @@ else:
         g=exercise(city,exercisetype,distance)
         linkindex=g.index('https')
         link=g[linkindex:]
-        print('You should %s '%(exercisetype)+exercise(city,exercisetype,distance).replace(link,''))
+        message='You should %s '%(exercisetype)+exercise(city,exercisetype,distance).replace(link,'')
+        print(message)
+        speaktext(hostdir, message)
         time.sleep(1)
         webbrowser.open_new(link)
     except:
+        message='Sorry, I cannot find a link for this route. Perhaps improv exercise today?'
+        speaktext(hostdir, message)
         print("no link")
     
     # update database 
     hostdir=sys.argv[1]
     os.chdir(hostdir)
-    database=json.load(open('registration.json'))
-    name=database['name']
-    email=database['email']
     database=json.load(open('actions.json'))
     action_log=database['action log']
-
-    message='Hey %s, \n\n Looks like you are stressed today. Perhaps go out and %s! \n\n Here is a good route: \n\n  %s \n\n Remember, be well! \n\n Cheers, \n\n -The NeuroLex Team'%(name.split()[0].title(), exercisetype, g)
-    sendmail([email],'NeuroLex: Go exercise!', message, os.environ['NEUROLEX_EMAIL'], os.environ['NEUROLEX_EMAIL_PASSWORD'], [])
 
     action={
         'action': 'exercise.py',

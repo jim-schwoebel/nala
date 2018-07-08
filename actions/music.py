@@ -768,61 +768,84 @@ def getmusic(musictype):
 ##                            MAIN SCRIPT                                   ##
 ##############################################################################
 
+# initialize directory and get transcript 
 hostdir=sys.argv[1]
-musictype=sys.argv[2]
+transcript=sys.argv[2].lower().split()
 
 #make into integer for later use
-if musictype in ["alternative", "alternativerock","alternattive"]:
-    musictype=1
-    count1=0
-elif musictype in ["classical"]:
-    musictype=2
-    count2=0
-elif musictype in ["country"]:
-    musictype=3
-    count3=0
-elif musictype in ["dance","edm"]:
-    musictype=4  
-    count4=0
-elif musictype in ["jazz","classicaljazz", "jpop"]:
-    musictype=5
-    count5=0
-elif musictype in ["hiphop","rap"]:
-    musictype=6
-    count6=0
-elif musictype in ["holiday"]:
-    musictype=7
-    count7=0
-elif musictype in ["indie","indiepop"]:
-    musictype=8
-    count8=0
-elif musictype in ["christian","gospel"]:
-    musictype=9
-    count9=0
-elif musictype in ["latin"]:
-    musictype=10
-    count10=0
-elif musictype in ["newage"]:
-    musictype=11
-    count11=0
-elif musictype in ["pop"]:
-    musictype=12
-    count12=0
-elif musictype in ["reggae"]:
-    musictype=13
-    count13=0
-elif musictype in ["rock"]:
-    musictype=14
-    count14=0
-elif musictype in ["folk"]:
-    musictype=15
-    count15=0
-elif musictype in ["soundtrack"]:
-    musictype=16
-    count16=0
-elif musictype in ["all", "everything", "allgenres", "random"]:
+for i in range(len(transcript)):
+    # now find the music type from the transcript query 
+    if musictype in ["alternative", "alternativerock","alternattive"]:
+        musictype=1
+        count1=0
+        break
+    elif musictype in ["classical"]:
+        musictype=2
+        count2=0
+        break
+    elif musictype in ["country"]:
+        musictype=3
+        count3=0
+        break
+    elif musictype in ["dance","edm"]:
+        musictype=4  
+        count4=0
+        break
+    elif musictype in ["jazz","classicaljazz", "jpop"]:
+        musictype=5
+        count5=0
+        break
+    elif musictype in ["hiphop","rap"]:
+        musictype=6
+        count6=0
+        break
+    elif musictype in ["holiday"]:
+        musictype=7
+        count7=0
+        break
+    elif musictype in ["indie","indiepop"]:
+        musictype=8
+        count8=0
+        break
+    elif musictype in ["christian","gospel"]:
+        musictype=9
+        count9=0
+        break
+    elif musictype in ["latin"]:
+        musictype=10
+        count10=0
+        break
+    elif musictype in ["new-age"]:
+        musictype=11
+        count11=0
+        break
+    elif musictype in ["pop"]:
+        musictype=12
+        count12=0
+        break
+    elif musictype in ["reggae"]:
+        musictype=13
+        count13=0
+        break
+    elif musictype in ["rock"]:
+        musictype=14
+        count14=0
+        break
+    elif musictype in ["folk"]:
+        musictype=15
+        count15=0
+        break
+    elif musictype in ["soundtrack"]:
+        musictype=16
+        count16=0
+        break
+    elif musictype in ["all", "everything", "allgenres", "random"]:
+        musictype=17
+        count17=0 
+        break
+
+if musictype now in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]:
     musictype=17
-    count17=0 
 
 g=getmusic(musictype)
 print("%s"%(g))
@@ -839,14 +862,8 @@ except:
 # update database 
 hostdir=sys.argv[1]
 os.chdir(hostdir)
-database=json.load(open('registration.json'))
-name=database['name']
-email=database['email']
 database=json.load(open('actions.json'))
 action_log=database['action log']
-
-message='Hey %s, \n\n Looks like you are stressed today. \n\n Perhaps take a quick break and listen to %s! \n\n Remember, be well! \n\n Cheers, \n\n -The NeuroLex Team'%(name.split()[0].title(), g[10:])
-sendmail([email],'NeuroLex: Listen to this song!', message, os.environ['NEUROLEX_EMAIL'], os.environ['NEUROLEX_EMAIL_PASSWORD'], [])
 
 action={
     'action': 'music.py',

@@ -62,6 +62,7 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email.utils import COMMASPACE, formatdate
 from email import encoders 
+import pyttsx3 as pyttsx
 
 ##############################################################################
 ##                            HELPER FUNCTIONS                              ##
@@ -726,6 +727,13 @@ def dinner(alcohol,coffee,city):
 def get_date():
     return str(datetime.datetime.now())
 
+def speaktext(text):
+    # speak to user from a text sample (tts system)
+    engine = pyttsx.init()
+    engine.setProperty('voice','com.apple.speech.synthesis.voice.fiona')
+    engine.say(text)
+    engine.runAndWait()
+
 ##############################################################################
 ##                            MAIN SCRIPT                                   ##
 ##############################################################################
@@ -775,9 +783,6 @@ for i in range(3):
 # update database 
 hostdir=sys.argv[1]
 os.chdir(hostdir)
-database=json.load(open('registration.json'))
-name=database['name']
-email=database['email']
 database=json.load(open('actions.json'))
 action_log=database['action log']
 
@@ -786,8 +791,21 @@ one=notify[0]
 two=notify[1]
 three=notify[2]
 options=[one,two,three]
-message="Hey %s, \n\n Perhaps eat some healthy %s in %s! \n\n Here are some options: \n\n %s \n\n %s \n\n %s \n\n Remember, be well! \n\n Cheers, \n\n -The NeuroLex Team"%(name.split()[0].title(),mealtype, city, one,two, three)
-sendmail([email],'NeuroLex: Eat healthy!', message, os.environ['NEUROLEX_EMAIL'], os.environ['NEUROLEX_EMAIL_PASSWORD'], [])
+
+speaktext(hostdir, 'here are three options to eat!')
+
+file=open('options.txt','w')
+file.write('option 1: %s \n\n'%(one))
+file.write('option 2: %s \n\n'%(two))
+file.write('option 3: %s \n\n'%(three))
+file.close()
+os.system('open options.txt')
+os.remove('options.txt')
+
+speaktext(hostdir, 'option 1 - %s'%(one))
+speaktext(hostdir, 'option 2 - %s'%(two))
+speaktext(hostdir, 'option 3 - %s'%(three))
+
 
 action={
     'action': 'nutrition.py',

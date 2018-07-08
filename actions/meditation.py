@@ -40,6 +40,7 @@ user through a 60 second meditation to breathe deeply in and out.
 
 import time, pygame, datetime, webbrowser, ftplib, getpass, os, importlib
 import random, platform, json, sys
+import pyttsx3 as pyttsx 
 
 ##############################################################################
 ##                            HELPER FUNCTIONS                              ##
@@ -57,13 +58,19 @@ def playbackaudio(question,filename):
 def get_date():
     return str(datetime.datetime.now())
 
+def speaktext(text):
+    # speak to user from a text sample (tts system)
+    engine = pyttsx.init()
+    engine.setProperty('voice','com.apple.speech.synthesis.voice.fiona')
+    engine.say(text)
+    engine.runAndWait()
+
 ##############################################################################
 ##                            MAIN SCRIPT.                                  ##
 ##############################################################################
+hostdir=sys.argv[1]
 
-webbrowser.open('http://actions.neurolex.co/uploads/meditate.png')
-time.sleep(3)
-
+speaktext(hostdir, 'Now I will let James guide you through a meditation.')
 playbackaudio("Starting meditation", "startmeditation.mp3")
 
 time.sleep(5)
@@ -74,12 +81,11 @@ for i in range(6):
     playbackaudio("Breathe out, deeply", "breatheout.mp3")
     time.sleep(5)
 
-webbrowser.open('http://actions.neurolex.co/uploads/exit2.png')
-time.sleep(2)
-
 # update database 
-hostdir=sys.argv[1]
 os.chdir(hostdir)
+database=json.load(open('registration.json'))
+name=database['name']
+speaktext(hostdir, 'Hope you feel better now, %s. I am here for you if you need anything else.'%(name.split()[0]))
 database=json.load(open('actions.json'))
 action_log=database['action log']
 
