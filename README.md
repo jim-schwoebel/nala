@@ -1,6 +1,6 @@
 # Nala
 
-Nala is a verastile open-source voice assistant to improve the workflow of your daily life. 
+Nala is an agile open-source voice assistant to improve the workflow of your daily life. 
 
 ![](https://media.giphy.com/media/VDzVG8lvNRufu/giphy.gif)
 
