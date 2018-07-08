@@ -2,6 +2,8 @@
 
 Nala is the world's most comprehensive open-source voice assistant for mac computers. 
 
+![](https://media.giphy.com/media/VDzVG8lvNRufu/giphy.gif)
+
 Nala is a verastile open-source voice assistant to improve the workflow of 
 your daily life. Nala uses actions which can be triggered by user voice queries. 
 All the user needs to do is say 'hey nala' and it will spark Nala to listen 
