@@ -1,15 +1,12 @@
 # Nala
 
-Nala is the world's most comprehensive open-source voice assistant for mac computers. 
+Nala is a verastile open-source voice assistant to improve the workflow of your daily life. 
 
 ![](https://media.giphy.com/media/VDzVG8lvNRufu/giphy.gif)
 
-Nala is a verastile open-source voice assistant to improve the workflow of 
-your daily life. Nala uses actions which can be triggered by user voice queries. 
-All the user needs to do is say 'hey nala' and it will spark Nala to listen 
-and respond to requests.
+Nala uses actions which can be triggered by user voice queries. All the user needs to do is say 'hey nala' and it will spark Nala to listen and respond to requests - like getting the weather or the news.
 
-Nala uses machine learning to parse through user intents. And yes, her name is inspired after Nala from the Lion King :-) 
+And yes, her name is inspired after Nala from the Lion King :-) 
 
 ## how to setup
 
@@ -35,6 +32,8 @@ You then can do any number of queries. This is the active list:
 * reboot
 * shut down 
 * ...
+
+Nala uses machine learning to parse through user intents.
 
 ### Multi-query capability 
 
