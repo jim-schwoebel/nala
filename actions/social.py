@@ -48,10 +48,18 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email.utils import COMMASPACE, formatdate
 from email import encoders 
+import pyttsx3 as pyttsx 
 
 ##############################################################################
 ##                            HELPER FUNCTIONS                              ##
 ##############################################################################
+
+def speaktext(hostdir, text):
+    # speak to user from a text sample (tts system)
+    engine = pyttsx.init()
+    engine.setProperty('voice','com.apple.speech.synthesis.voice.fiona')
+    engine.say(text)
+    engine.runAndWait()
 
 def nearestcity():
     
@@ -418,12 +426,6 @@ def get_date():
 ##                            MAIN SCRIPT                                   ##
 ##############################################################################
 
-#pull up webbrowser
-webbrowser.open("http://actions.neurolex.co/uploads/social.m4a")
-time.sleep(2)
-webbrowser.open('http://actions.neurolex.co/uploads/social.png')
-time.sleep(6)
-
 #initialize 
 month=datetime.datetime.now().month
 # update database 
@@ -683,13 +685,37 @@ one=notify[0]
 two=notify[1]
 three=notify[2]
 options=[one,two,three]
-message="Hey %s, \n\n Perhaps go out with some friends to de-stress! Here are some options: \n\n %s \n\n %s \n\n %s \n\n Remember, be well! \n\n Cheers, \n\n -The NeuroLex Team"%(name.split()[0].title(),one,two,three)
-sendmail([email],'NeuroLex: Go out tonight!', message, os.environ['NEUROLEX_EMAIL'], os.environ['NEUROLEX_EMAIL_PASSWORD'], [])
+
+speaktext(hostdir, 'here are three options to go out tonight!')
+
+file=open('options.txt','w')
+file.write('option 1: %s \n\n'%(one))
+file.write('option 2: %s \n\n'%(two))
+file.write('option 3: %s \n\n'%(three))
+file.close()
+os.system('open options.txt')
+
+time.sleep(1)
+
+speaktext(hostdir, 'option 1 - %s'%(one))
+if one.find('http')>=0:
+    i1=one.find('http')
+    webbrowser.open(one[i1:])
+speaktext(hostdir, 'option 2 - %s'%(two))
+if two.find('http')>=0:
+    i1=two.find('http')
+    webbrowser.open(two[i1:])
+speaktext(hostdir, 'option 3 - %s'%(three))
+if three.find('http')>=0:
+    i1=three.find('http')
+    webbrowser.open(three[i1:])
+
+os.remove('options.txt')
 
 action={
     'action': 'social.py',
     'date': get_date(),
-    'meta': [message, options],
+    'meta': [options],
 }
 
 action_log.append(action)

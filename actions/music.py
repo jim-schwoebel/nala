@@ -773,78 +773,79 @@ hostdir=sys.argv[1]
 transcript=sys.argv[2].lower().split()
 
 #make into integer for later use
+musictype=18
 for i in range(len(transcript)):
     # now find the music type from the transcript query 
-    if musictype in ["alternative", "alternativerock","alternattive"]:
+    if transcript[i] in ["alternative"]:
         musictype=1
         count1=0
         break
-    elif musictype in ["classical"]:
+    elif transcript[i] in ["classical"]:
         musictype=2
         count2=0
         break
-    elif musictype in ["country"]:
+    elif transcript[i] in ["country"]:
         musictype=3
         count3=0
         break
-    elif musictype in ["dance","edm"]:
+    elif transcript[i] in ["dance","edm"]:
         musictype=4  
         count4=0
         break
-    elif musictype in ["jazz","classicaljazz", "jpop"]:
+    elif transcript[i] in ["jazz"]:
         musictype=5
         count5=0
         break
-    elif musictype in ["hiphop","rap"]:
+    elif transcript[i] in ["hiphop","rap"]:
         musictype=6
         count6=0
         break
-    elif musictype in ["holiday"]:
+    elif transcript[i] in ["holiday"]:
         musictype=7
         count7=0
         break
-    elif musictype in ["indie","indiepop"]:
+    elif transcript[i] in ["indie","indiepop"]:
         musictype=8
         count8=0
         break
-    elif musictype in ["christian","gospel"]:
+    elif transcript[i] in ["christian","gospel"]:
         musictype=9
         count9=0
         break
-    elif musictype in ["latin"]:
+    elif transcript[i] in ["latin"]:
         musictype=10
         count10=0
         break
-    elif musictype in ["new-age"]:
+    elif transcript[i] in ["new","age"]:
         musictype=11
         count11=0
         break
-    elif musictype in ["pop"]:
+    elif transcript[i] in ["pop"]:
         musictype=12
         count12=0
         break
-    elif musictype in ["reggae"]:
+    elif transcript[i] in ["reggae"]:
         musictype=13
         count13=0
         break
-    elif musictype in ["rock"]:
+    elif transcript[i] in ["rock"]:
         musictype=14
         count14=0
         break
-    elif musictype in ["folk"]:
+    elif transcript[i] in ["folk"]:
         musictype=15
         count15=0
         break
-    elif musictype in ["soundtrack"]:
+    elif transcript[i] in ["soundtrack"]:
         musictype=16
         count16=0
         break
-    elif musictype in ["all", "everything", "allgenres", "random"]:
+    elif transcript[i] in ["all", "everything", "allgenres", "random"]:
         musictype=17
         count17=0 
         break
 
-if musictype now in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]:
+if musictype not in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]:
     musictype=17
 
 g=getmusic(musictype)

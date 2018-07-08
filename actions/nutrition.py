@@ -727,7 +727,7 @@ def dinner(alcohol,coffee,city):
 def get_date():
     return str(datetime.datetime.now())
 
-def speaktext(text):
+def speaktext(hostdir, text):
     # speak to user from a text sample (tts system)
     engine = pyttsx.init()
     engine.setProperty('voice','com.apple.speech.synthesis.voice.fiona')
@@ -744,12 +744,6 @@ coffee='yes'
 alcoholnum=2
 tea='yes'
 now=datetime.datetime.now().hour
-
-#pull up webbrowser
-webbrowser.open("http://actions.neurolex.co/uploads/nutrition.m4a")
-time.sleep(2)
-webbrowser.open('http://actions.neurolex.co/uploads/nutrition.png')
-time.sleep(6) 
 
 #for demo purposes 
 try:
@@ -800,17 +794,26 @@ file.write('option 2: %s \n\n'%(two))
 file.write('option 3: %s \n\n'%(three))
 file.close()
 os.system('open options.txt')
-os.remove('options.txt')
-
+time.sleep(1)
 speaktext(hostdir, 'option 1 - %s'%(one))
+if one.find('http')>=0:
+    i1=one.find('http')
+    webbrowser.open(one[i1:])
 speaktext(hostdir, 'option 2 - %s'%(two))
+if two.find('http')>=0:
+    i1=two.find('http')
+    webbrowser.open(two[i1:])
 speaktext(hostdir, 'option 3 - %s'%(three))
+if three.find('http')>=0:
+    i1=three.find('http')
+    webbrowser.open(three[i1:])
 
+os.remove('options.txt')
 
 action={
     'action': 'nutrition.py',
     'date': get_date(),
-    'meta': [message, options],
+    'meta': [options],
 }
 
 action_log.append(action)

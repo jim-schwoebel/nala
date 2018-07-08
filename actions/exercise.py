@@ -1370,7 +1370,7 @@ def exercise(nearestcity, exercise, distance):
                 route10="Loop around Highland Park, 8.346 miles: https://www.plotaroute.com/route/245115"
                 return str(randomrouteselection(route1,route2,route3,route4,route5,route6,route7,route8,route9,route10))
 
-def speaktext(text):
+def speaktext(hostdir, text):
     # speak to user from a text sample (tts system)
     engine = pyttsx.init()
     engine.setProperty('voice','com.apple.speech.synthesis.voice.fiona')

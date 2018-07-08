@@ -58,7 +58,7 @@ def playbackaudio(question,filename):
 def get_date():
     return str(datetime.datetime.now())
 
-def speaktext(text):
+def speaktext(hostdir, text):
     # speak to user from a text sample (tts system)
     engine = pyttsx.init()
     engine.setProperty('voice','com.apple.speech.synthesis.voice.fiona')
