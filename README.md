@@ -25,9 +25,25 @@ After that, you're ready to begin using Nala!
 
 ## how to query Nala
 
+### Single quereies 
+
 To active Nala, all you need to do is query her with 'Hey Nala!'
 
-Note that you can change this wakeword during the setup process.
+You then can do any number of queries. This is the active list:
+* sleep
+* reboot
+* shut down 
+* ...
+
+### Multi-query capability 
+
+Nala is equipped with multi-query capability. All you need to do is add 'AND' into your query and she'll automatically execute actions serially that you request to her. 
+
+For example, you may say, "Hey Nala" --> "close spotify and sleep" 
+
+She will then close spotify and then go to sleep for 30 minutes. 
+
+This makes Nala incredibly versatile to do multiple things quickly and is an advantage over other chatbot systems. 
 
 ## how this works
 
