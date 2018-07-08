@@ -9,8 +9,7 @@ your daily life. Nala uses actions which can be triggered by user voice queries.
 All the user needs to do is say 'hey nala' and it will spark Nala to listen 
 and respond to requests.
 
-Nala uses machine learning to parse through user intents. If a request is not 
-understood or is an anomaly, a web search is performed to give the user an answer.
+Nala uses machine learning to parse through user intents. And yes, her name is inspired after Nala from the Lion King :-) 
 
 ## how to setup
 
