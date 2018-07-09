@@ -11,13 +11,13 @@ from sphinxbase.sphinxbase import *
 
 # Get all the directories right
 
-def transcribe(HOSTDIR, SAMPLEDIR):
-  
-    ##HOSTDIR = sys.argv[1]
-    ##SAMPLEDIR = sys.argv[2]
+def transcribe(HOSTDIR, SAMPLE):
+    
+    # fix host directory if it doesn't contain a '/'
+    
     if HOSTDIR[-1] != '/':
         HOSTDIR = HOSTDIR+'/'
-        
+    SAMPLEDIR = HOSTDIR+SAMPLE
     MODELDIR = HOSTDIR+"data/models"
     DATADIR = HOSTDIR+"data/wakewords"
 
@@ -31,7 +31,7 @@ def transcribe(HOSTDIR, SAMPLEDIR):
     # Decode streaming data.
     decoder = Decoder(config)
     decoder.start_utt()
-    stream = open(path.join(DATADIR, 'sample0_0.wav'), 'rb')
+    stream = open(SAMPLEDIR, 'rb')
     while True:
       buf = stream.read(1024)
       if buf:
