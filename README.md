@@ -63,6 +63,8 @@ Nala has an event-driven structure with queries and responses to those queries.
 * shut down or restart the computer 
 * [surprise me!]
 
+- put all the commands here. 
+
 ... more to come into the future! 
 
 ## references 
