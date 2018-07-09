@@ -30,4 +30,14 @@ pip_modules=['',
 brew_install(brew_modules)
 pip_install(pip_modules)
 
+# need to fix pocketsphinx for custom language model 
+# https://github.com/watsonbox/homebrew-cmu-sphinx
+os.system('brew uninstall pocketsphinx')
+os.system('brew tap watsonbox/cmu-sphinx')
+os.system('brew install --HEAD watsonbox/cmu-sphinx/cmu-sphinxbase')
+os.system('brew install --HEAD watsonbox/cmu-sphinx/cmu-pocketsphinx')
+
+# test pocketsphinx with this command (can exit out of screen whenever).
+os.system('pocketsphinx_continuous -inmic yes')
+
 # done! now you're ready
