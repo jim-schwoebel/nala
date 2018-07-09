@@ -685,7 +685,7 @@ while turn_off == False:
             time.sleep(0.50)
             unique_sample='sample'+str(loopnum)+'_'+str(query_num)+'.wav'
             record_to_file(os.getcwd(),unique_sample, 3.0)
-            transcript=pst.transcribe(hostdir,hostdir+'sample0_0.wav')
+            transcript=pst.transcribe(hostdir,unique_sample)
             print('pocket: '+transcript)
             shutil.move(hostdir+'/'+unique_sample,hostdir+'/data/queries/'+unique_sample)
             query_transcript=transcript.lower().split()
