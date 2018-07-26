@@ -31,7 +31,7 @@ After that, you're ready to begin using Nala!
 
 ## how to query Nala
 
-### Single quereies 
+### Single queries 
 
 To active Nala, all you need to do is query her with 'Hey Nala!'
 
