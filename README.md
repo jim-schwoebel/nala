@@ -21,14 +21,6 @@ You will then be asked to register with your name and email.
 
 After that, you're ready to begin using Nala! 
 
-## what working on right now
-
-* better wakeword for nala so that there are fewer false positives during conversations 
-* making 1 script maintainable with environment vars for google transcription and/or pocketsphinx 
-* google transcription only for things like documentation and diarization, etc. 
-* detecting music with a ML model in background and/or mouse clicks, etc. as a query - if voice. etc. - if that don't worry about querying 
-* make voice configurable - various female voices in pyttsx3 library - iterate through and set global parameter for all actions and main script. Convert all actions to use this variable. 
-
 ## how to query Nala
 
 ![](https://github.com/jim-schwoebel/nala/blob/master/data/other/Webp.net-gifmaker.gif)
