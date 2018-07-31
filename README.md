@@ -31,11 +31,11 @@ After that, you're ready to begin using Nala!
 
 ## how to query Nala
 
+![](https://github.com/jim-schwoebel/nala/blob/master/data/other/Screen%20Shot%202018-07-31%20at%205.48.29%20PM.png)
+
 ### Single queries 
 
 To active Nala, all you need to do is query her with 'Hey Nala!'
-
-![](https://github.com/jim-schwoebel/nala/blob/master/data/other/Screen%20Shot%202018-07-31%20at%205.48.29%20PM.png)
 
 You then can do any number of queries. This is the active list:
 * sleep
