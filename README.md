@@ -31,7 +31,7 @@ After that, you're ready to begin using Nala!
 
 ## how to query Nala
 
-![](https://github.com/jim-schwoebel/nala/blob/master/data/other/Screen%20Shot%202018-07-31%20at%205.48.29%20PM.png)
+![](https://media.giphy.com/media/4HrJaR4fYlp8LttZnW/giphy.gif)
 
 ### Single queries 
 
