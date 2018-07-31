@@ -31,7 +31,7 @@ After that, you're ready to begin using Nala!
 
 ## how to query Nala
 
-![](https://media.giphy.com/media/2gXxXkMgtZgQLuwRIH/giphy.gif)
+![](https://github.com/jim-schwoebel/nala/blob/master/data/other/Webp.net-gifmaker.gif)
 
 ### Single queries 
 
