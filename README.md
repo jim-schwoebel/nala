@@ -71,6 +71,8 @@ Here are some actions that Nala can currently do along with the query intents ne
 
 ## references 
 
+If you need anything else, check out [the Wiki](https://github.com/jim-schwoebel/nala/wiki). 
+
 If you're looking for a place to start to learn how to code voice computing, Nala has some great documentation in [Chapter 7 of the Voicebook repository](https://github.com/jim-schwoebel/voicebook/tree/master/chapter_7_design).
 
 Here are some other modules and things you could look into for further guidance:
