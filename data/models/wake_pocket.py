@@ -27,6 +27,7 @@ def pocket_detect(key_phrase):
     config = pocketsphinx.Decoder.default_config()
     # config.set_string('-hmm', os.path.join(modeldir, 'en-us/en-us'))
     config.set_string('-dict', modeldir+'/TAR7051/7051.dic')
+    config.set_string('-lm', modeldir+'/TAR7051/7051.lm')
     config.set_string('-hmm', modeldir+'/en-us')
     config.set_string('-keyphrase', key_phrase)
     config.set_float('-kws_threshold', 1)
@@ -51,18 +52,18 @@ def pocket_detect(key_phrase):
         else:
             break
         # If the hypothesis is not none, the key phrase was recognized
-        if decoder.hyp() is not None:
+        if decoder.hyp() != None:
+            print(decoder.hyp())
             keyphrase_function(keyword)
             # Stop and reinitialize the decoder
             decoder.end_utt()
             decoder.start_utt()
-            speak()
-            break 
+            break
 
 def keyphrase_function(keyword):
     """ Dummy function that prints a notification when the key phrase is recognized.
     """
     print("Keyword %s detected!"%(keyword))
 
-keyword='nala'
+keyword='hey nala'
 pocket_detect(keyword)

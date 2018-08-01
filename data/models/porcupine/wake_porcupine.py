@@ -93,8 +93,10 @@ class PorcupineDemo(Thread):
                 result = porcupine.process(pcm)
                 if num_keywords == 1 and result:
                     print('[%s] detected keyword' % str(datetime.now()))
+                    break
                 elif num_keywords > 1 and result >= 0:
                     print('[%s] detected keyword #%d' % (str(datetime.now()), result))
+                    break
 
         except KeyboardInterrupt:
             print('stopping ...')
