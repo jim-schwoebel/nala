@@ -47,10 +47,6 @@ She will then close spotify and then go to sleep for 30 minutes.
 
 This makes Nala incredibly versatile to do multiple things quickly and is an advantage over other chatbot systems. 
 
-## how this works
-
-we use snowbird hotword detector (). We trained a model on a male's voice. 
-
 ## what can Nala do
 
 [Post video]
