@@ -27,13 +27,13 @@ After that, you're ready to begin using Nala!
 
 ### Single queries 
 
-To active Nala, all you need to do is query her with 'Hey Nala!'
+To active Nala, all you need to do is query her with 'Hey Nala!' (1) - which then triggers a response from Nala - (3) in this case, “How can I help you?.” Then, a user provides another query (usually after some beeping sound) - such as (4) “I’d like the weather.” Nala transcribes this query to understand it, and parses the query for keyword intents; for example, if the response is “I’d like the weather” the only word that really matters is “weather” and that would be used to provoke a response (5). Then, after this keyword maps onto an action dictionary (or a map of responses to keywords), the action is executed (6). Then, the intent loop repeats itself, looking for another wakeword (“Hey Nala”) before triggering another action. 
 
-You then can do any number of queries. This is the active list:
-* sleep
-* reboot
-* shut down 
-* ...
+This architecture is quite powerful. 
+
+You can then prompt a number of responses including:
+
+
 
 Nala uses machine learning to parse through user intents.
 
