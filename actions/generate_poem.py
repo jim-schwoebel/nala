@@ -14,7 +14,6 @@ from nltk import FreqDist
 from collections import Counter
 import numpy as np 
 from textblob import TextBlob
-from nameparser.parser import HumanName
 from nltk.corpus import genesis
 import pyttsx3 as pyttsx 
 
