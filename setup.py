@@ -23,6 +23,7 @@ def brew_install(modules):
 brew_modules=['portaudio',
               'shpotify']
 
+# ADD ACTIONS MODULES 
 pip_modules=['ftplib', 'smtplib', 'getpass', 'pyaudio','pygame'
              'wave','shutil','importlib','geocoder','librosa',
              'urrllib','random','webbrowser','pyperclip','pydub',
