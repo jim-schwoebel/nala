@@ -24,8 +24,8 @@ def transcribe(HOSTDIR, SAMPLE):
     # Create a decoder with certain model
     config = Decoder.default_config()
     config.set_string('-hmm', MODELDIR+'/en-us')
-    config.set_string('-lm', MODELDIR+'/6008.lm')
-    config.set_string('-dict', MODELDIR+'/6008.dic')
+    config.set_string('-lm', MODELDIR+'/TAR7051/7051.lm')
+    config.set_string('-dict', MODELDIR+'/TAR7051/7051.dic')
     decoder = Decoder(config)
 
     # Decode streaming data.
