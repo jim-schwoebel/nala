@@ -253,8 +253,9 @@ def get_seconds(transcript):
             minutes=int(mins)
         except:
             print('error converting')
-            seconds='error'
-            minutes='error'
+            # default to 1 minute 
+            seconds=60
+            minutes=1
 
     print(minutes)
     print(seconds)
