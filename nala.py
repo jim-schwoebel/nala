@@ -360,11 +360,15 @@ def cut_faces(modeldir,filename):
     return facenums
 
 def save_query_json(wavfile, query, hostdir):
+    # save queries in .json format in the queries folder 
+    curdir=os.getcwd()
+    os.chdir(hostdir)
     jsonfilename=wavfile[0:-4]+'.json'
     jsonfile=open(jsonfilename, 'w')
-    json.dump(data,jsonfile)
+    json.dump(query,jsonfile)
     jsonfile.close()
     shutil.move(hostdir+'/'+jsonfilename,hostdir+'/data/queries/'+jsonfilename)
+    os.chdir(curdir)
 
 def register_user(action_list, hostdir):
 
@@ -401,8 +405,8 @@ def register_user(action_list, hostdir):
     speaktext(hostdir, 'To begin, you must register with us. I have a few quick questions for you. Please type in the answers to the following questions.')
     email=input('what is your email? \n')
     name=input('what is your name (leave blank for %s)? \n'%(getpass.getuser()))
-    budget=input('what is the budget that you have to go out with friends? (e.g. 30)')
-    genre=input('what is your favorite music genre? (e.g. rock)')
+    budget=input('what is the budget that you have to go out with friends? (e.g. 30) \n')
+    genre=input('what is your favorite music genre? (e.g. rock) \n')
 
     # now get some wakewords to authenticate the user's identity 
     os.chdir(hostdir+'/data/wakewords')
@@ -827,8 +831,11 @@ while turn_off == False:
                     }
 
                     # save query to json 
-                    if query_json == True:
-                        save_query_json(unique_sample, query, hostdir)
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
 
                     query_count=query_count+1 
                     queries.append(query)
