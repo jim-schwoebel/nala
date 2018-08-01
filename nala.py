@@ -877,6 +877,13 @@ while turn_off == False:
                             'meta': list(),
                         }
 
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
+
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -901,6 +908,13 @@ while turn_off == False:
                         'response': command,
                         'meta': list(),
                     }
+
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
 
                     query_count=query_count+1 
                     queries.append(query)
@@ -927,6 +941,13 @@ while turn_off == False:
                         'meta': list(),
                     }
 
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
+
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -951,6 +972,13 @@ while turn_off == False:
                         'response': command,
                         'meta': list(),
                     }
+
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
 
                     query_count=query_count+1 
                     queries.append(query)
@@ -977,6 +1005,13 @@ while turn_off == False:
                         'meta': list(),
                     }
 
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
+
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -1002,6 +1037,13 @@ while turn_off == False:
                         'meta': list(),
                     }
 
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
+
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -1026,7 +1068,12 @@ while turn_off == False:
                         'response': command,
                         'meta': list(),
                     }
-
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -1052,7 +1099,12 @@ while turn_off == False:
                         'response': command,
                         'meta': list(),
                     }
-
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -1089,6 +1141,12 @@ while turn_off == False:
                         'response': '',
                         'meta': [message],
                     }
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -1122,7 +1180,12 @@ while turn_off == False:
                         'response': 'python3 search.py %s %s'%(hostdir, search_query.replace('search','')),
                         'meta': [search_query],
                     }
-
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -1148,7 +1211,12 @@ while turn_off == False:
                         'response': command,
                         'meta': list(),
                     }
-
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -1174,7 +1242,12 @@ while turn_off == False:
                         'response': command,
                         'meta': list(),
                     }
-
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -1200,7 +1273,12 @@ while turn_off == False:
                         'response': command,
                         'meta': list(),
                     }
-
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -1226,7 +1304,12 @@ while turn_off == False:
                         'response': "python3 yelp.py %s 'ice cream'"%(hostdir),
                         'meta': list(),
                     }
-
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -1251,7 +1334,12 @@ while turn_off == False:
                         'response': command,
                         'meta': list(),
                     }
-
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -1276,7 +1364,12 @@ while turn_off == False:
                         'response': command,
                         'meta': list(),
                     }
-
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -1301,7 +1394,12 @@ while turn_off == False:
                         'response': command,
                         'meta': list(),
                     }
-
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -1331,7 +1429,12 @@ while turn_off == False:
                         'response': 'python3 generate_poem.py %s'%(hostdir),
                         'meta': list(),
                     }
-                    
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -1412,7 +1515,12 @@ while turn_off == False:
                         'response': [command],
                         'meta': message,
                     }
-                    
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -1439,7 +1547,12 @@ while turn_off == False:
                         'response': [command],
                         'meta': list(),
                     }
-                    
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -1496,7 +1609,12 @@ while turn_off == False:
                             'response': [''],
                             'meta': [seconds, minutes, search_query, unique_sample_2, filename],
                         }
-                        
+                    # save query to json 
+                        try:
+                            if query_json == True:
+                                save_query_json(unique_sample, query, hostdir)
+                        except:
+                            print('error')
                         query_count=query_count+1 
                         queries.append(query)
                         session.append(query)
@@ -1522,7 +1640,12 @@ while turn_off == False:
                             'response': [command],
                             'meta': [],
                         }
-                        
+                        # save query to json 
+                        try:
+                            if query_json == True:
+                                save_query_json(unique_sample, query, hostdir)
+                        except:
+                            print('error')
                         query_count=query_count+1 
                         queries.append(query)
                         session.append(query)
@@ -1550,7 +1673,12 @@ while turn_off == False:
                         'response': '',
                         'meta': ['sleep for 30 minutes'],
                     }
-
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
                     # controlled by variable sleep_time (in settings.json )
                     time.sleep(60*sleep_time)
                     query_request=True 
@@ -1573,7 +1701,12 @@ while turn_off == False:
                         'response': '',
                         'meta': 'logged off with turn_off = True',
                     }
-
+                    # save query to json 
+                    try:
+                        if query_json == True:
+                            save_query_json(unique_sample, query, hostdir)
+                    except:
+                        print('error')
                     query_count=query_count+1 
                     queries.append(query)
                     session.append(query)
@@ -1603,7 +1736,12 @@ while turn_off == False:
                             'transcript': transcript,
                             'response': "python3 shutdown.py %s"%(hostdir),
                         }
-
+                        # save query to json 
+                        try:
+                            if query_json == True:
+                                save_query_json(unique_sample, query, hostdir)
+                        except:
+                            print('error')
                         query_count=query_count+1 
                         queries.append(query)
                         session.append(query)
@@ -1633,7 +1771,12 @@ while turn_off == False:
                             'transcript': transcript,
                             'response': "python3 reboot.py %s"%(hostdir),
                         }
-
+                        # save query to json 
+                        try:
+                            if query_json == True:
+                                save_query_json(unique_sample, query, hostdir)
+                        except:
+                            print('error')
                         query_count=query_count+1 
                         queries.append(query)
                         session.append(query)
