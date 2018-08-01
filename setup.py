@@ -12,6 +12,9 @@ os.system('brew tap watsonbox/cmu-sphinx')
 os.system('brew install --HEAD watsonbox/cmu-sphinx/cmu-sphinxbase')
 os.system('brew install --HEAD watsonbox/cmu-sphinx/cmu-pocketsphinx')
 
+# prompt user if they want to integrate with google? / open up docs to setup env vars 
+# set up env var for host password 
+
 def pip_install(modules):
     for i in range(len(modules)):
         os.system('pip3 install %s'%(modules[i]))
