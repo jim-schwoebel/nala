@@ -8,7 +8,7 @@ Nala uses actions which can be triggered by user voice queries. All the user nee
 
 And yes, her name is inspired after Nala from the Lion King :-) 
 
-## how to setup
+## getting started
 
 It's super easy to setup Nala. All you need to do is:
 
