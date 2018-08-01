@@ -43,17 +43,29 @@ This makes Nala incredibly versatile to do multiple things quickly and is an adv
 
 [Post video]
 
-Nala has an event-driven structure with queries and responses to those queries. 
+Here are some actions that Nala can currently do along with the query intents needed to activate them. If you have any other ideas, let us know on the [github issues tab](https://github.com/jim-schwoebel/nala/issues) (as an enhancement)! 
 
-* get the weather 
-* get food 
-* get coffee 
-* set the alarm
-* exercise 
-* shut down or restart the computer 
-* [surprise me!]
-
-- put all the commands here. 
+| Action  | Description | Example query intent | 
+| ------------- | ------------- | ------------- |
+| alarm.py | Plays an alarm sound (e.g. to wake up in morning) based on the time of day you specified during user registration. | “set alarm”, “stop alarm” | 
+| chillout.py | Plays music in the background to help you calm down.| “chill out” | 
+| espn.py | Scrapes ESPN website to find any events going on later tonight. This is a work-in-progress.| “get sports”|
+| events.py | Scrape meetup.com for events in your local area. | “find events” | 
+| generate_poem.py | Generate a poem based on the generate poetry script we wrote a while back.| “make a poem”| 
+| grateful.py | Helps you keep a gratitude journal by recording a sample of what you’re grateful for today. | “be grateful” | 
+| makeajoke.py | Plays back a joke from the database. | “make a joke” | 
+| meditation.py | Guides you through a simple 60 second meditation.| “meditate” | 
+| music.py | YouTube music links - based on a genre. | “play music” | 
+| news.py | searches some basic news sites related to computer science and machine learning (e.g. Hacker News). | “grab the news” | 
+| nutrition.py | Searches for some healthy food nearby | “be healthy” | 
+| plan_trip.py | Schedules a trip in terms of AirBnB suggestions and flights | “plan trip” | 
+| reboot.py | Restarts the computer. | “restart” |
+| search.py | search bing with a query. | First query: “search”, Second query: [search term] | 
+| shutdown.py | Shuts down the computer. | “shut down” |
+| sleep |  Puts the computer to sleep for a designated time period. | ‘go to sleep’|
+| social.py | Alternative script to give you some suggestions based on your budget to go out later. | ‘be social’|
+| weather.py | Searches weather.com for the current weather at your location. | ‘get the weather’|
+| yelp.py | Based on the query, searches yelp for coffee, restaurants, food, nightlife, ice cream, or bars. |‘get me coffee’, ‘get me some food’, ‘nightlife’, ‘get ice cream’, ‘grab beer’| 
 
 ... more to come into the future! 
 
