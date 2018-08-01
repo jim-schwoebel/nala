@@ -1,16 +1,39 @@
-hey jim 
-I love you
+hey nala
+play music 
 get the weather
 get social 
-get exercise
 get coffee 
 get the news 
-play music 
 get sports 
-book a flight 
+get food
+get ice cream
+get beers
+get beer 
+get social 
+get food 
+get nightlife 
+find a bar 
+plan trip 
 set alarm 
 stop alarm 
-search 
-get food 
+make a poem 
+make a joke 
+record audio 
+record video 
+open atom
+open sublime 
+open spotify 
+open twitter
+open linkedin
+open facebook
+open github
+chill out 
+exercise
+I love you
+search  
 be grateful 
 meditate 
+shut down
+restart 
+log out
+sleep 
