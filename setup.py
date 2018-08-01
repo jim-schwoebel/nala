@@ -23,8 +23,7 @@ def brew_install(modules):
     for i in range(len(modules)):
         os.system('brew install %s'%(modules[i]))
 
-brew_modules=['portaudio',
-              'shpotify']
+brew_modules=['portaudio', 'ffmpeg', 'sox', 'shpotify']
 
 # ADD ACTIONS MODULES 
 pip_modules=['ftplib', 'smtplib', 'getpass', 'pyaudio','pygame'
