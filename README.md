@@ -70,6 +70,11 @@ Nala has an event-driven structure with queries and responses to those queries.
 ... more to come into the future! 
 
 ## references 
+
+If you're looking for a place to start to learn how to code voice computing, Nala has some great documentation in [Chapter 7 of the Voicebook repository](https://github.com/jim-schwoebel/voicebook/tree/master/chapter_7_design).
+
+Here are some other modules and things you could look into for further guidance:
+
 * [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 * [Google speech API](https://cloud.google.com/speech-to-text/docs/)
 * [Pyttsx3](https://github.com/nateshmbhat/pyttsx3)
