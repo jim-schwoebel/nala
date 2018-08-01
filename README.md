@@ -70,5 +70,12 @@ Nala has an event-driven structure with queries and responses to those queries.
 ... more to come into the future! 
 
 ## references 
-* [snowboy hotword detector](https://snowboy.kitt.ai/hotword/18587#)
-* [building language model with pocketsphinx](https://cmusphinx.github.io/wiki/tutoriallm/#using-keyword-lists-with-pocketsphinx)
+* [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
+* [Google speech API](https://cloud.google.com/speech-to-text/docs/)
+* [Pyttsx3](https://github.com/nateshmbhat/pyttsx3)
+* [Pocketsphinx](https://github.com/cmusphinx/pocketsphinx)
+* [Porcupine](https://github.com/Picovoice/Porcupine)
+* [Sounddevice](https://python-sounddevice.readthedocs.io/en/0.3.11/)
+* [Soundfile](https://github.com/bastibe/SoundFile)
+* [SpeechRecognition](https://pypi.org/project/SpeechRecognition/) 
+* [Voicebook](https://github.com/jim-schwoebel/voicebook/tree/master)
