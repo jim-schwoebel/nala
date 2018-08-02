@@ -54,19 +54,10 @@ THINGS TO DO
 ##                          IMPORT STATEMENT                                ##
 ##############################################################################
 
-# first thing we need to do is get the import statements right.
-
-import ftplib
-from ftplib import FTP
 import smtplib, os, glob, time, getpass, socket, pyaudio, pygame, wave
-import shutil, importlib, geocoder, librosa, json, re, platform, urllib
-import requests, random, webbrowser, pickle, pyperclip
+import shutil, importlib, geocoder, librosa, json, re, platform, urllib, contextlib
+import requests, random, webbrowser, pickle, pyperclip, sys, struct, collections
 from pydub import AudioSegment
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from email.mime.text import MIMEText
-from email.utils import COMMASPACE, formatdate
-from email import encoders
 from datetime import datetime
 from sys import byteorder
 from array import array
@@ -76,17 +67,9 @@ import pandas as pd
 import numpy as np
 from bs4 import BeautifulSoup
 import urllib.request
-from cryptography.fernet import Fernet
-import pyscreenshot as ImageGrab
-import pyautogui, cv2, readchar, psutil
 import speech_recognition as sr_audio
 import pyttsx3 as pyttsx
 import soundfile as sf 
-import collections, contextlib, sys, wave, webrtcvad, struct
-import cv2, itertools, operator
-import skvideo.io, skvideo.motion, skvideo.measure
-from moviepy.editor import VideoFileClip
-from PIL import Image
 from data.models import ps_transcribe as pst
 
 ##############################################################################
@@ -294,7 +277,7 @@ def capture_video(filename, timesplit):
     return filename 
 
 def cut_faces(modeldir,filename):
-
+    # import data later 
     hostdir=os.getcwd()
     capture_video(filename, 10)
     face_cascade = cv2.CascadeClassifier(modeldir+'/data/models/haarcascade_frontalface_default.xml')
@@ -411,7 +394,7 @@ def register_user(action_list, hostdir):
 
     # now get some wakewords to authenticate the user's identity 
     os.chdir(hostdir+'/data/wakewords')
-    speaktext(hostdir, 'Ok, now we will quickly train some models so I can recognize you. Can you say Hey Nala for me?')
+    speaktext(hostdir, 'Okay, can you say Hey Nala for me?')
     playbackaudio(hostdir+'/data/tone.wav')
     record_to_file(os.getcwd(),'hey_nala_1.wav', 3)
     speaktext(hostdir, 'Can you say Hey Nala again?')
@@ -591,6 +574,12 @@ os.chdir(hostdir)
 # try to load vars in baseline.json file or register a user 
 os.chdir(hostdir)
 if 'actions.json' not in os.listdir():
+    # you only use these modules if you register, so put them here
+    import cv2 
+    import skvideo.io, skvideo.motion, skvideo.measure
+    from moviepy.editor import VideoFileClip
+    from PIL import Image
+    
     register_user(action_list, hostdir)
 
 try:
@@ -672,6 +661,11 @@ try:
 except:
     # register user if no user exists
     print('registering new user!')
+    # you only use these modules if you register, so put them here
+    import cv2 
+    import skvideo.io, skvideo.motion, skvideo.measure
+    from moviepy.editor import VideoFileClip
+    from PIL import Image
     register_user(action_list, hostdir)
 
     # load database
