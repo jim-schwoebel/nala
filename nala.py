@@ -1,35 +1,63 @@
-##############################################################################
-##                         NALA.PY - MAC RELEASE                            ##
-##############################################################################
-
 '''
-Nala.py
 
-Author: @Jim Schwoebel
-Role: Chief Executive Officer
-Git Repo: [TBA]
-Script: nala-mac.py 
-Version: 0.10
-License: Trade secret
-Contact: js@neurolex.co 
+############################################################################
+##                         NALA REPOSITORY                                ##
+############################################################################
 
-(C) 2018 NeuroLex Laboratories, Inc.
-All rights reserved. 
+repository name: nala 
+repository version: 1.0 
+repository link: https://github.com/jim-schwoebel/nala 
+author: Jim Schwoebel 
+author contact: js@neurolex.co 
+description: Nala is an open source voice assistant. 
+license category: opensource 
+license: Apache 2.0 license 
+organization name: NeuroLex Laboratories, Inc. 
+location: Seattle, WA 
+website: https://neurolex.ai 
+release date: 2018-09-28 
 
-This version is intended for mac operationg systems only. If you have a different
-operation system please use a different distribution.
+This code (nala) is hereby released under a Apache 2.0 license license. 
 
-THIS CODE IS PROTECTED BY UNITED STATES AND INTERNATIONAL LAW. It constitutes
-a TRADE SECRET possessed by NeuroLex Laboratories, Inc. If you received this
-code base by error, please delete this code immediately and do not read below.
-Please do not distribute this code base outside of our company.
-'''
+For more information, check out the license terms below. 
+
+##############################################################################
+##                            LICENSE TERMS                                 ##
+##############################################################################
+
+Copyright 2018 NeuroLex Laboratories, Inc. 
+
+Licensed under the Apache License, Version 2.0 (the "License"); 
+you may not use this file except in compliance with the License. 
+You may obtain a copy of the License at 
+
+     http://www.apache.org/licenses/LICENSE-2.0 
+
+Unless required by applicable law or agreed to in writing, software 
+distributed under the License is distributed on an "AS IS" BASIS, 
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+See the License for the specific language governing permissions and 
+limitations under the License. 
+
+##############################################################################
+##                            SERVICE STATEMENT                             ##
+##############################################################################
+
+If you are using the code written for a larger project, we are 
+happy to consult with you and help you with deployment. Our team 
+has >10 world experts in kafka distributed architectures, microservices 
+built on top of Node.JS / Python / Docker, and applying machine learning to 
+model speech and text data. 
+
+We have helped a wide variety of enterprises - small businesses, 
+researchers, enterprises, and/or independent developers. 
+
+If you would like to work with us let us know @ js@neurolex.co. 
 
 ##############################################################################
 ##                           RELEASE NOTES                                  ##
 ##############################################################################
 
-'''
 Nala is a verastile open-source voice assistant to improve the workflow of 
 your daily life. Nala uses actions which can be triggered by user voice queries. 
 
@@ -39,15 +67,9 @@ and respond to requests.
 Nala uses machine learning to parse through user intents. If a request is not 
 understood or is an anomaly, a web search is performed to give th user an answer.
 
-THINGS TO DO 
-
---> update news to be more relevant (e.g. eliminate wikipedia, add CNN, etc.)
---> add a record action (prompt recording time)
-
-# be sure to include google application credentials as a .json file 
-# referenced in the .bash_profile environment vars.
-# e.g. export GOOGLE_APPLICATION_CREDENTIALS='/Users/jimschwoebel/Desktop/appcreds/NLX-infrastructure-b9201d884ea5.json'
-
+FOR NEW USERS:
+--> be sure to include google application credentials as a .json file 
+e.g. export GOOGLE_APPLICATION_CREDENTIALS='/Users/jimschwoebel/Desktop/appcreds/NLX-infrastructure-b9201d884ea5.json'
 '''
 
 ##############################################################################
