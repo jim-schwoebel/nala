@@ -54,7 +54,7 @@ researchers, enterprises, and/or independent developers.
 If you would like to work with us let us know @ js@neurolex.co. 
 
 ##############################################################################
-##                            DESCRIPTION                                   ##
+##                            YELP.PY                                       ##
 ##############################################################################
 
 Find a local coffee shop based on your current location using Yelp.
