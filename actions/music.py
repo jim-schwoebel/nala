@@ -1,31 +1,61 @@
-﻿##############################################################################
-##                         STRESSLEX - MUSIC.PY                             ##
+'''
+############################################################################
+##                         NALA REPOSITORY                                ##
+############################################################################
+
+repository name: nala 
+repository version: 1.0 
+repository link: https://github.com/jim-schwoebel/nala 
+author: Jim Schwoebel 
+author contact: js@neurolex.co 
+description: Nala is an open source voice assistant. 
+license category: opensource 
+license: Apache 2.0 license 
+organization name: NeuroLex Laboratories, Inc. 
+location: Seattle, WA 
+website: https://neurolex.ai 
+release date: 2018-09-28 
+
+This code (nala) is hereby released under a Apache 2.0 license license. 
+
+For more information, check out the license terms below. 
+
+##############################################################################
+##                            LICENSE TERMS                                 ##
 ##############################################################################
 
-'''
-Author: @Jim Schwoebel
-Role: Chief Executive Officer
-Git Repo: git@github.com:NeuroLexDiagnostics/stresslex-py.git
-Script: music.py
-Version: 0.90
-License: Trade Secret 
-Contact: js@neurolex.co
+Copyright 2018 NeuroLex Laboratories, Inc. 
 
-(C) 2018 NeuroLex Laboratories, Inc.
-All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); 
+you may not use this file except in compliance with the License. 
+You may obtain a copy of the License at 
 
-THIS CODE IS PROTECTED BY UNITED STATES AND INTERNATIONAL LAW. It constitutes
-a TRADE SECRET possessed by NeuroLex Laboratories, Inc. If you received this
-code base by error, please delete this code immediately and do not read below.
-Please do not distribute this code base outside of our company.
+     http://www.apache.org/licenses/LICENSE-2.0 
 
-'''
+Unless required by applicable law or agreed to in writing, software 
+distributed under the License is distributed on an "AS IS" BASIS, 
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+See the License for the specific language governing permissions and 
+limitations under the License. 
 
 ##############################################################################
-##                            DESCRIPTION                                   ##
+##                            SERVICE STATEMENT                             ##
 ##############################################################################
 
-'''
+If you are using the code written for a larger project, we are 
+happy to consult with you and help you with deployment. Our team 
+has >10 world experts in kafka distributed architectures, microservices 
+built on top of Node.JS / Python / Docker, and applying machine learning to 
+model speech and text data. 
+
+We have helped a wide variety of enterprises - small businesses, 
+researchers, enterprises, and/or independent developers. 
+
+If you would like to work with us let us know @ js@neurolex.co. 
+
+##############################################################################
+##                            MUSIC.PY                                      ##
+##############################################################################
 
 The music.py action module alleviates stress with music.
 
@@ -36,7 +66,6 @@ In this way you can chill out and take breaks listening to a song for 3-5
 minutes in a new way - with a music video :-).
 
 Note: some links are deprecated. We're working on this.
-
 '''
 
 ##############################################################################
