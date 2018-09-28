@@ -8,16 +8,11 @@ Role: Chief Executive Officer
 Git Repo: git@github.com:NeuroLexDiagnostics/stresslex-py.git
 Script: alarm.py
 Version: 1.0
-License: Trade Secret 
+License: Apache 2.0
 Contact: js@neurolex.co
 
 (C) 2018 NeuroLex Laboratories, Inc.
 All rights reserved.
-
-THIS CODE IS PROTECTED BY UNITED STATES AND INTERNATIONAL LAW. It constitutes
-a TRADE SECRET possessed by NeuroLex Laboratories, Inc. If you received this
-code base by error, please delete this code immediately and do not read below.
-Please do not distribute this code base outside of our company.
 
 '''
 
