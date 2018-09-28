@@ -7,7 +7,7 @@ Author: @Jim Schwoebel
 Role: Chief Executive Officer
 Git Repo: git@github.com:NeuroLexDiagnostics/stresslex-py.git
 Script: exercise.py
-Version: 0.90
+Version: 1.0
 License: Trade Secret 
 Contact: js@neurolex.co
 
