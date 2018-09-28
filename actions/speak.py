@@ -1,3 +1,6 @@
+'''
+Quick script to play back speech using sys.argv[] function.
+'''
 import sys
 import pyttsx3 as pyttsx
 
