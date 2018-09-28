@@ -1,40 +1,66 @@
-##############################################################################
-##                         STRESSLEX - NEWS.PY                              ##
-##############################################################################
-
 '''
+############################################################################
+##                         NALA REPOSITORY                                ##
+############################################################################
 
-Author: @Jim Schwoebel
-Role: Chief Executive Officer
-Git Repo: git@github.com:NeuroLexDiagnostics/stresslex-py.git
-Script: alarm.py
-Version: 1.0
-License: Trade Secret 
-Contact: js@neurolex.co
+repository name: nala 
+repository version: 1.0 
+repository link: https://github.com/jim-schwoebel/nala 
+author: Jim Schwoebel 
+author contact: js@neurolex.co 
+description: Nala is an open source voice assistant. 
+license category: opensource 
+license: Apache 2.0 license 
+organization name: NeuroLex Laboratories, Inc. 
+location: Seattle, WA 
+website: https://neurolex.ai 
+release date: 2018-09-28 
 
-(C) 2018 NeuroLex Laboratories, Inc.
-All rights reserved.
+This code (nala) is hereby released under a Apache 2.0 license license. 
 
-THIS CODE IS PROTECTED BY UNITED STATES AND INTERNATIONAL LAW. It constitutes
-a TRADE SECRET possessed by NeuroLex Laboratories, Inc. If you received this
-code base by error, please delete this code immediately and do not read below.
-Please do not distribute this code base outside of our company.
-
-'''
+For more information, check out the license terms below. 
 
 ##############################################################################
-##                            DESCRIPTION                                   ##
+##                            LICENSE TERMS                                 ##
 ##############################################################################
 
-'''
+Copyright 2018 NeuroLex Laboratories, Inc. 
 
-News.py
+Licensed under the Apache License, Version 2.0 (the "License"); 
+you may not use this file except in compliance with the License. 
+You may obtain a copy of the License at 
+
+     http://www.apache.org/licenses/LICENSE-2.0 
+
+Unless required by applicable law or agreed to in writing, software 
+distributed under the License is distributed on an "AS IS" BASIS, 
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+See the License for the specific language governing permissions and 
+limitations under the License. 
+
+##############################################################################
+##                            SERVICE STATEMENT                             ##
+##############################################################################
+
+If you are using the code written for a larger project, we are 
+happy to consult with you and help you with deployment. Our team 
+has >10 world experts in kafka distributed architectures, microservices 
+built on top of Node.JS / Python / Docker, and applying machine learning to 
+model speech and text data. 
+
+We have helped a wide variety of enterprises - small businesses, 
+researchers, enterprises, and/or independent developers. 
+
+If you would like to work with us let us know @ js@neurolex.co. 
+
+##############################################################################
+##                            NEWS.PY                                       ##
+##############################################################################
 
 Get major news events (in category of interest, just right after login).
 
 Currently compatible with wikipedia, hacker news, statsbot blog, fast ML blog,
 and cnn money.
-
 '''
 
 ##############################################################################
