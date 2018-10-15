@@ -66,7 +66,7 @@ import pyttsx3 as pyttsx
 import random, webbrowser, librosa, os, time, pygame, datetime, json
 
 def speaktext(text):
-    engine = pyttsx3.init()
+    engine = pyttsx.init()
     engine.say(text)
     engine.runAndWait()
 
