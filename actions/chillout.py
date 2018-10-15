@@ -63,7 +63,7 @@ in the playlist so you don't run into issues with copyright infringement.
 '''
 from pytube import Playlist
 import pyttsx3 as pyttsx 
-import random, webbrowser, librosa, os, time, pygame, datetime, json
+import random, webbrowser, librosa, os, time, pygame, datetime, json, sys
 
 def speaktext(text):
     engine = pyttsx.init()
@@ -88,6 +88,7 @@ if 'data' not in listdir:
     speaktext('downloading playlist...')
     pl=Playlist("https://www.youtube.com/watch?v=Uf8AP2Yhr9k&list=PL11Wnnyw47LpkF3McMjHwG0HZ23CcfYUX")
     pl.download_all()
+    listdir=os.listdir()
     for i in range(len(listdir)):
         if listdir[i][-4:]=='.mp4':
             print(listdir[i])
@@ -109,7 +110,7 @@ for i in range(len(listdir)):
         duration=librosa.core.get_duration(y=y,sr=sr)
         time.sleep(duration)
     except:
-        pass 
+        print('error playing '+listdir[i])
 
 speaktext('playlist is done!')
 
