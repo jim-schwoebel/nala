@@ -66,6 +66,10 @@ Here are some actions that Nala can currently do along with the query intents ne
 |👥 social.py | Alternative script to give you some suggestions based on your budget to go out later. | ‘be social’|
 |🌡️ weather.py | Searches weather.com for the current weather at your location. | ‘get the weather’|
 |☕🍦🎉🍺 yelp.py | Based on the query, searches yelp for coffee, restaurants, food, nightlife, ice cream, or bars. |‘get me coffee’, ‘get me some food’, ‘nightlife’, ‘get ice cream’, ‘grab beer’| 
+|📂open program | GitHub, Facebook, LinkedIn, Twitter, Spotify, Sublime, Atom |"open github", "open facebook", "open linkedin", "open twitter", "open spotify", "open sublime", "open atom"|
+|📴close program | Close a Spotify session. | "close spotify", "stop spotify"|
+|🎙️Record audio | record a stream of audio for a designated time period and save to desktop | "record audio" | 
+|📹Record video | Open up zoom meeting link to record a video session. | "record video" | 
 
 ... more to come into the future! 
 
