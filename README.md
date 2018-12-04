@@ -85,7 +85,7 @@ This repository is licensed under the [Apache 2.0 License](https://www.apache.or
 
 ## References 
 
-If you need anything else, check out [the Wiki](https://github.com/jim-schwoebel/nala/wiki). 
+If you need anything else, check out [the wiki](https://github.com/jim-schwoebel/nala/wiki). 
 
 If you're looking for a place to start to learn how to code voice computing, Nala has some great documentation in [Chapter 7 of the Voicebook repository](https://github.com/jim-schwoebel/voicebook/tree/master/chapter_7_design).
 
