@@ -1,4 +1,5 @@
 # Nala
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Are%20you%20a%20developer%20looking%20to%20learn%20how%20to%20program%20voice%20applications%20in%20Python%20%20Check%20out%20the%20Voicebook%20@%20http://voicebook.neurolex.co!%20&url=https://www.neurolex.ai/voicebook&hashtags=voicecomputing,hackvoice,voicebook)
 
 Nala is an agile open-source voice assistant to improve the workflow of your daily life. 
 
