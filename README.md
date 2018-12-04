@@ -9,7 +9,7 @@ Nala uses actions which can be triggered by user voice queries. All the user nee
 
 And yes, her name is inspired after Nala from the Lion King :-) 
 
-## getting started
+## Getting started
 
 It's super easy to setup Nala. All you need to do is:
 
@@ -22,7 +22,7 @@ You will then be asked to register with your name, email, and a few other [regis
 
 After that, you're ready to begin using Nala! 
 
-## how to query Nala
+## How to query Nala
 
 ![](https://github.com/jim-schwoebel/nala/blob/master/data/other/Webp.net-gifmaker.gif)
 
@@ -40,7 +40,7 @@ She will then close spotify and then go to sleep for 30 minutes.
 
 This makes Nala incredibly versatile to do multiple things quickly and is an advantage over other chatbot systems. 
 
-## what can Nala do
+## What Nala can do
 [![multiple intents](https://github.com/jim-schwoebel/nala/blob/master/data/other/Screen%20Shot%202018-08-02%20at%202.36.25%20PM.png
 )](https://drive.google.com/open?id=1Ubeyxot4G6oVXXt0REPfPLSwA29Hpliz "Querying multiple intents - Nala")
 
@@ -83,7 +83,7 @@ Any feedback on the book or this repository is greatly appreciated.
 ## License
 This repository is licensed under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0). 
 
-## references 
+## References 
 
 If you need anything else, check out [the Wiki](https://github.com/jim-schwoebel/nala/wiki). 
 
