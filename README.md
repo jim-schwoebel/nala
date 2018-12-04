@@ -74,6 +74,15 @@ Here are some actions that Nala can currently do along with the query intents ne
 
 ... more to come into the future! 
 
+## Feedback
+Any feedback on the book or this repository is greatly appreciated. 
+* If you find something that is missing or doesn't work, please consider opening a [GitHub issue](https://github.com/jim-schwoebel/nala/issues).
+* If you'd like to be mentored by someone on our team, check out the [Innovation Fellows Program](http://neurolex.ai/research).
+* If you want to talk to me directly, please send me an email @ js@neurolex.co. 
+
+## License
+This repository is licensed under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0). 
+
 ## references 
 
 If you need anything else, check out [the Wiki](https://github.com/jim-schwoebel/nala/wiki). 
