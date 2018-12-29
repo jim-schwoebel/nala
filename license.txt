@@ -7,7 +7,7 @@ repository version: 1.0
 repository link: https://github.com/jim-schwoebel/nala 
 author: Jim Schwoebel 
 author contact: js@neurolex.co 
-description: Nala is an open source voice assistant.  
+description: 🦁 Nala is an open source voice assistant.  
 license category: opensource 
 license: Apache 2.0 license 
 organization name: NeuroLex Laboratories, Inc. 
