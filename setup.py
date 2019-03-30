@@ -90,9 +90,10 @@ pip_modules=['ftplib', 'smtplib', 'getpass', 'pyaudio','pygame'
              'cv2','readchar','psutil','SpeechRecognition',
              'pyttsx3','soundfile','skvideo','moviepy','PIL',
              'pytube', 'email', 'nltk','textblob','pdf2image',
-            'pytesseract','tempfile','pdfkit']
+            'pytesseract','tempfile','pdfkit', 'pygame', 'pocketsphinx']
 
 brew_install(brew_modules)
+os.system('pip3 install -U pyobjc')
 pip_install(pip_modules)
 
 # done! now you're ready
