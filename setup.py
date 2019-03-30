@@ -88,7 +88,7 @@ pip_modules=['ftplib', 'smtplib', 'getpass', 'pyaudio','pygame'
              'array','struct','soundfile','pandas','numpy',
              'bs4','cryptography','pyscreenshot','pyautogui',
              'cv2','readchar','psutil','SpeechRecognition',
-             'pyttsx3','soundfile','skvideo','moviepy','PIL',
+             'pyttsx3','soundfile','moviepy','PIL',
              'pytube', 'email', 'nltk','textblob','pdf2image',
             'pytesseract','tempfile','pdfkit', 'pygame', 'pocketsphinx',
             'opencv-python','scikit-video']
