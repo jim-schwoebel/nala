@@ -117,18 +117,21 @@ print('connecting to %s'%(url))
 
 page=requests.get(url)
 soup = BeautifulSoup(page.content, 'html.parser')
-linklist=soup.find_all('a',class_='nowrap')
+linklist=soup.find_all('a')
+print(linklist)
 linklist2=list()
 
 for c in range(len(linklist)):
-    if str(linklist[c]).count('/adredir?')>0:
+    try:
+        tlink=linklist[c]['href']
+        if tlink[0:4]=='/biz':
+            print(linklist[c]['href'])
+            i1=linklist[c]['href'].find('?')
+            tlink='https://www.yelp.com'+linklist[c]['href'][0:i1]
+            if tlink not in linklist2 and tlink.find('popup')<0:
+                linklist2.append(tlink)
+    except:
         pass
-    else:
-        tlink=str(linklist[c])
-        i1=tlink.find('<a class="nowrap" href="')
-        tlink=tlink[i1+len('<a class="nowrap" href="'):]
-        i2=tlink.find('"')
-        linklist2.append('https://www.yelp.com'+tlink[0:i2])
 
 print('found %s links'%(str(len(linklist2))))
 entrylist=list()
