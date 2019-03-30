@@ -118,14 +118,14 @@ print('connecting to %s'%(url))
 page=requests.get(url)
 soup = BeautifulSoup(page.content, 'html.parser')
 linklist=soup.find_all('a')
-print(linklist)
+# print(linklist)
 linklist2=list()
 
 for c in range(len(linklist)):
     try:
         tlink=linklist[c]['href']
         if tlink[0:4]=='/biz':
-            print(linklist[c]['href'])
+            # print(linklist[c]['href'])
             i1=linklist[c]['href'].find('?')
             tlink='https://www.yelp.com'+linklist[c]['href'][0:i1]
             if tlink not in linklist2 and tlink.find('popup')<0:
