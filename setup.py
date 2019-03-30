@@ -71,10 +71,14 @@ os.system('brew install --HEAD watsonbox/cmu-sphinx/cmu-pocketsphinx')
 # prompt user if they want to integrate with google? / open up docs to setup env vars 
 # set up env var for host password 
 
+def pip3_install(modules):
+    for i in range(len(modules)):
+        os.system('pip3 install %s'%(modules[i]))
+          
 def pip_install(modules):
     for i in range(len(modules)):
         os.system('pip3 install %s'%(modules[i]))
-
+          
 def brew_install(modules):
     for i in range(len(modules)):
         os.system('brew install %s'%(modules[i]))
@@ -82,7 +86,7 @@ def brew_install(modules):
 brew_modules=['portaudio', 'ffmpeg', 'sox', 'shpotify']
 
 # for all actions and main script 
-pip_modules=['ftplib', 'smtplib', 'getpass', 'pyaudio','pygame'
+pip3_modules=['ftplib', 'smtplib', 'getpass', 'pyaudio','pygame'
              'wave','shutil','importlib','geocoder','librosa',
              'urrllib','random','webbrowser','pyperclip','pydub',
              'array','struct','soundfile','pandas','numpy',
@@ -93,8 +97,12 @@ pip_modules=['ftplib', 'smtplib', 'getpass', 'pyaudio','pygame'
             'pytesseract','tempfile','pdfkit', 'pygame', 'pocketsphinx',
             'opencv-python','scikit-video']
 
+pip_modules=['pyttsx3']
+
 brew_install(brew_modules)
 os.system('pip3 install -U pyobjc')
+os.system('pip install -U pyobjc')
+pip3_install(pip3_modules)
 pip_install(pip_modules)
 
 # done! now you're ready
