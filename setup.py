@@ -104,5 +104,6 @@ os.system('pip3 install -U pyobjc')
 os.system('pip install -U pyobjc')
 pip3_install(pip3_modules)
 pip_install(pip_modules)
+os.system('/Applications/Python\ 3.6/Install\ Certificates.command')
 
 # done! now you're ready
