@@ -60,18 +60,16 @@ If you would like to work with us let us know @ js@neurolex.co.
 Quick script to play back speech using sys.argv[] function.
 '''
 
-import sys
+import sys, os
 import pyttsx3 as pyttsx
 
 def say(text):
-    try:
-         engine = pyttsx.init()
-         engine.setProperty('voice','com.apple.speech.synthesis.voice.fiona')
-         engine.say(text)
-         engine.runAndWait()
-         say(str(sys.argv[1]))
-     except:
-         #backup to using python2 if python3 does not work
-         os.system('python speak.py sys.argv[0] sys.argv[1]')
+    engine = pyttsx.init()
+    engine.setProperty('voice','com.apple.speech.synthesis.voice.fiona')
+    engine.say(text)
+    engine.runAndWait()
+    sys.exit()
+
+say(str(sys.argv[1]))
 
 
