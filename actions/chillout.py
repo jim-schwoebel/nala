@@ -83,17 +83,28 @@ curdir=os.getcwd()
 listdir=os.listdir()
 
 if 'data' not in listdir:
-    os.mkdir(curdir+'/data')
-    os.chdir(curdir+'/data')
-    speaktext('downloading playlist...')
-    pl=Playlist("https://www.youtube.com/watch?v=Uf8AP2Yhr9k&list=PL11Wnnyw47LpkF3McMjHwG0HZ23CcfYUX")
-    pl.download_all()
+    try:
+        os.mkdir(curdir+'/data')
+        os.chdir(curdir+'/data')
+        speaktext('enter in a playlist URL from YouTube')
+        playlisturl=input('playlist URL (e.g. https://www.youtube.com/watch?v=Uf8AP2Yhr9k&list=PL11Wnnyw47LpkF3McMjHwG0HZ23CcfYUX)')
+        if playlisturl == '':
+            playlisturl='https://www.youtube.com/watch?v=Uf8AP2Yhr9k&list=PL11Wnnyw47LpkF3McMjHwG0HZ23CcfYUX'
+        speaktext('downloading playlist...')
+        pl=Playlist(playlisturl)
+        print(len(pl.video_urls))
+        pl.download_all()
+    except:
+        pass
+        
     listdir=os.listdir()
     for i in range(len(listdir)):
         if listdir[i][-4:]=='.mp4':
             print(listdir[i])
             os.rename(listdir[i],str(i)+'.mp4')
             os.system('ffmpeg -i %s -ab 160k -ac 2 -ar 44100 -vn %s'%(str(i)+'.mp4',str(i)+'.wav'))
+            # delete the videos.
+            os.remove(str(i)+'.mp4')
 
 else:
     os.chdir(os.getcwd()+'/data')
