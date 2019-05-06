@@ -216,7 +216,7 @@ if description != 'none':
     speaktext(speak_text)
 
 else:
-    speak_text='Check out %s. The next event scheduled is '%(orgname, nextevent)
+    speak_text='Check out %s. The next event scheduled is %s'%(orgname, nextevent)
     speaktext(speak_text)
 
 # update database 
