@@ -225,7 +225,7 @@ elif randompoem in ['n','no']:
 
 poem_name='poem_'+str(loopnum)+'_'+name+'.txt'
 poem_text=open(poem_name).read().replace(' \n',',')
-open('open %s'%(poem_name))
+os.system('open %s'%(poem_name))
 speaktext(hostdir, 'I call this poem %s'%(name))
 speaktext(hostdir,poem_text)
 os.chdir(hostdir)
