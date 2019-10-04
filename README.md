@@ -15,6 +15,8 @@ It's super easy to setup Nala. All you need to do is:
 
     git clone git@github.com:jim-schwoebel/nala.git
     cd nala
+    python3 -m venv env
+    source env/bin/activate
     python3 setup.py
     python3 nala.py
     
