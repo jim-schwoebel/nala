@@ -95,7 +95,7 @@ pip3_modules=['ftplib', 'smtplib', 'getpass', 'pyaudio','pygame'
              'pyttsx3','soundfile','moviepy','PIL',
              'pytube', 'email', 'nltk','textblob','pdf2image',
             'pytesseract','tempfile','pdfkit', 'pygame', 'pocketsphinx',
-            'opencv-python','scikit-video']
+            'opencv-python','scikit-video', 'google-api-python-client']
 
 pip_modules=['pyttsx3']
 
