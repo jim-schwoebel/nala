@@ -42,10 +42,11 @@ She will then close spotify and then go to sleep for 30 minutes.
 
 This makes Nala incredibly versatile to do multiple things quickly and is an advantage over other chatbot systems. 
 
-## What Nala can do (click video below)
+## Demo (click video below)
 [![multiple intents](https://github.com/jim-schwoebel/nala/blob/master/data/other/Screen%20Shot%202018-08-02%20at%202.36.25%20PM.png
 )](https://drive.google.com/open?id=1Ubeyxot4G6oVXXt0REPfPLSwA29Hpliz "Querying multiple intents - Nala")
 
+## What Nala can do 
 Here are some actions that Nala can currently do along with the query intents needed to activate them. If you have any other ideas, let us know on the [github issues tab](https://github.com/jim-schwoebel/nala/issues) (as an enhancement)! 
 
 | Action  | Description | Example query intent | 
