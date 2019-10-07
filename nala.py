@@ -713,6 +713,7 @@ except:
     avail_actions = database['available actions']
     
     # settings.json
+    database=json.load(open('settings.json'))
     alarm=database['alarm']
     alarm_time=database['alarm time']
     greeting=database['greeting']
