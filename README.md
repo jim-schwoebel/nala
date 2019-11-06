@@ -77,6 +77,12 @@ Here are some actions that Nala can currently do along with the query intents ne
 
 ... more to come into the future! 
 
+## Projects that use Nala Framework
+
+Here are some other projects that have used the Nala Framework:
+
+* [Greta](https://github.com/protea-earth/greta) - a voice assistant for climate change.
+
 ## Feedback
 Any feedback this repository is greatly appreciated. 
 * If you find something that is missing or doesn't work, please consider opening a [GitHub issue](https://github.com/jim-schwoebel/nala/issues).
