@@ -1,7 +1,7 @@
 # Nala
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Are%20you%20a%20developer%20looking%20to%20learn%20how%20to%20build%20a%20voice%20assistant%20in%20Python?%20Check%20out%20Nala%20@%20https://github.com/jim-schwoebel/nala.&hashtags=voicecomputing,hackvoice,nala)
 
-Nala is an agile open-source voice assistant to improve the workflow of your daily life. 
+Nala is an agile open-source voice assistant framework to improve the workflow of your daily life. 
 
 ![](https://media.giphy.com/media/VDzVG8lvNRufu/giphy.gif)
 
